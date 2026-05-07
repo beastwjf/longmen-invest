@@ -3,833 +3,1078 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#1e3a8a">
   <link rel="manifest" href="manifest.json">
-  <title>龙门县农业农村招商引资地块信息平台 · 真实数据版（71条）</title>
+  <title>龙门县招商引资地块平台 · 真实数据版</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <script src="data.js"></script>
 </head>
 <body>
-  <style>
-      --bg-primary: #ffffff;
-      --bg-secondary: #f5f6fa;
-      --bg-card: #ffffff;
-      --text-primary: #1a1a2e;
-      --text-secondary: #5f6368;
-      --text-muted: #9aa0a6;
-      --border: #e0e0e0;
-      --accent: #2563eb;
-      --accent-light: #dbeafe;
-      --green: #16a34a;
-      --green-light: #dcfce7;
-      --amber: #d97706;
-      --amber-light: #fef3c7;
-      --red: #dc2626;
-      --red-light: #fee2e2;
-      --purple: #7c3aed;
-      --purple-light: #ede9fe;
-      --radius: 10px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-      min-height: 100vh;
-    }
+<style>
+/* ===== 变量与重置 ===== */
+:root {
+  --blue: #1e3a8a;
+  --blue-mid: #2563eb;
+  --blue-light: #dbeafe;
+  --green: #059669;
+  --green-light: #d1fae5;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --bg: #f0f4f8;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-sub: #64748b;
+  --text-muted: #94a3b8;
+  --radius: 14px;
+  --shadow: 0 2px 8px rgba(30,58,138,0.08);
+  --shadow-md: 0 6px 24px rgba(30,58,138,0.12);
+  --shadow-lg: 0 12px 40px rgba(30,58,138,0.18);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-    /* ===== 顶部导航 ===== */
-    .navbar {
-      background: var(--bg-primary);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      gap: 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav-brand {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-primary);
-      padding: 16px 0;
-      margin-right: 32px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-    }
-    .nav-brand .dot {
-      width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
-    }
-    .nav-tabs {
-      display: flex;
-      gap: 0;
-    }
-    .nav-tab {
-      padding: 16px 20px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .nav-tab:hover { color: var(--accent); }
-    .nav-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      font-weight: 500;
-    }
-    .nav-right {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .badge-new {
-      background: var(--red);
-      color: #fff;
-      font-size: 10px;
-      padding: 1px 6px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
+/* ===== 顶部导航 ===== */
+.navbar {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(30,58,138,0.25);
+  height: 60px;
+}
+.nav-brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  margin-right: 32px;
+}
+.nav-brand .logo-icon {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.nav-brand .badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.2);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.nav-tabs { display: flex; gap: 4px; }
+.nav-tab {
+  padding: 16px 18px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-tab:hover { color: #fff; }
+.nav-tab.active {
+  color: #fff;
+  border-bottom-color: #60a5fa;
+  font-weight: 600;
+  background: rgba(255,255,255,0.1);
+}
+.nav-tab .tab-badge {
+  background: var(--amber);
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-right .source-tag {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
 
-    /* ===== 主容器 ===== */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 24px;
-    }
+/* ===== 移动端菜单按钮 ===== */
+.menu-toggle {
+  display: none;
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 8px;
+}
+.menu-toggle span {
+  width: 18px; height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  display: block;
+  transition: 0.2s;
+}
 
-    /* ===== 页面 ===== */
-    .page { display: none; }
-    .page.active { display: block; }
+/* ===== 主容器 ===== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
 
-    /* ===== 总览大屏 ===== */
-    .overview-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .overview-title {
-      font-size: 20px;
-      font-weight: 600;
-    }
-    .overview-subtitle {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .stat-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-    .stat-info h3 {
-      font-size: 26px;
-      font-weight: 700;
-      line-height: 1;
-    }
-    .stat-info p {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-    .stat-trend {
-      font-size: 11px;
-      padding: 1px 6px;
-      border-radius: 4px;
-      margin-top: 4px;
-      display: inline-block;
-    }
-    .trend-up { background: var(--green-light); color: var(--green); }
-    .trend-new { background: var(--accent-light); color: var(--accent); }
+/* ===== 页面 ===== */
+.page { display: none; }
+.page.active { display: block; }
 
-    /* 图表网格 */
-    .chart-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .chart-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid var(--border);
-    }
-    .chart-card.full-width {
-      grid-column: span 3;
-    }
-    .chart-card.half-width {
-      grid-column: span 2;
-    }
-    .chart-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .chart-wrap { position: relative; height: 220px; }
-    .chart-wrap-sm { position: relative; height: 200px; }
+/* ===== 综合总览 ===== */
+.overview-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+}
+.overview-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue);
+}
+.overview-subtitle {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 4px;
+  line-height: 1.6;
+}
 
-    /* 最新地块列表 */
-    .latest-list {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-    .latest-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .latest-header h3 { font-size: 14px; font-weight: 600; }
-    .latest-item {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .latest-item:last-child { border-bottom: none; }
-    .latest-item:hover { background: var(--bg-secondary); }
-    .latest-num {
-      width: 28px; height: 28px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px;
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-    .latest-name { font-size: 14px; font-weight: 500; flex: 1; }
-    .latest-town { font-size: 12px; color: var(--text-secondary); }
-    .latest-area { font-size: 13px; font-weight: 600; color: var(--accent); white-space: nowrap; }
-    .latest-status {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
+/* 统计卡片 */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  transition: box-shadow 0.25s, transform 0.25s;
+  border: 1px solid rgba(30,58,138,0.06);
+}
+.stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.stat-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.stat-info h3 {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+.stat-info p {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 4px;
+}
+.stat-info .sub-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-top: 6px;
+  font-weight: 500;
+}
 
-    /* ===== 搜索页 ===== */
-    .search-box {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .search-input-wrap {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .search-input {
-      flex: 1;
-      padding: 10px 16px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      transition: border 0.2s;
-    }
-    .search-input:focus { border-color: var(--accent); }
-    .search-btn {
-      padding: 10px 24px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-    .search-btn:hover { background: #1d4ed8; }
-    .search-btn.secondary {
-      background: var(--bg-secondary);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-    }
-    .search-btn.secondary:hover { background: var(--border); }
-    .filter-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .filter-label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-right: 4px;
-    }
-    .filter-select {
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 13px;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      outline: none;
-      cursor: pointer;
-      min-width: 110px;
-    }
-    .filter-select:focus { border-color: var(--accent); }
-    .filter-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .filter-tag:hover, .filter-tag.active {
-      background: var(--accent-light);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .filter-tag .count {
-      background: var(--accent);
-      color: #fff;
-      border-radius: 10px;
-      padding: 0 5px;
-      font-size: 10px;
-      font-weight: 600;
-    }
+/* 图表网格 */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.chart-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(30,58,138,0.06);
+}
+.chart-card.full-width { grid-column: span 3; }
+.chart-card.half-width { grid-column: span 2; }
+.chart-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chart-wrap { position: relative; height: 230px; }
+.chart-wrap-sm { position: relative; height: 200px; }
 
-    /* 搜索结果 */
-    .result-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .result-count {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-    .result-count strong { color: var(--text-primary); }
-    .view-toggle {
-      display: flex;
-      gap: 4px;
-    }
-    .view-btn {
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-primary);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.15s;
-    }
-    .view-btn.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
+/* 最新地块 */
+.latest-list {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid rgba(30,58,138,0.06);
+}
+.latest-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+}
+.latest-header h3 { font-size: 15px; font-weight: 700; color: var(--blue); }
+.latest-item {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.latest-item:last-child { border-bottom: none; }
+.latest-item:hover { background: linear-gradient(90deg, #eff6ff, transparent); }
+.latest-num {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--blue-mid), #3b82f6);
+  color: #fff;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+}
+.latest-name { font-size: 14px; font-weight: 600; flex: 1; color: var(--text); }
+.latest-town { font-size: 12px; color: var(--text-sub); }
+.latest-area { font-size: 15px; font-weight: 800; color: var(--blue-mid); white-space: nowrap; }
+.latest-area small { font-size: 11px; font-weight: 400; color: var(--text-sub); }
+.latest-status { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
 
-    /* 表格视图 */
-    .data-table {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      width: 100%;
-      overflow-x: auto;
-    }
-    .data-table table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .data-table th {
-      background: var(--bg-secondary);
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 500;
-      color: var(--text-secondary);
-      font-size: 12px;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    .data-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-primary);
-    }
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr:hover td { background: #f8fafc; cursor: pointer; }
-    .data-table .col-name {
-      font-weight: 500;
-      color: var(--accent);
-    }
+/* ===== 快速查询页 ===== */
+.search-box {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 22px;
+  border: 1px solid rgba(30,58,138,0.06);
+}
+.search-input-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.search-input {
+  flex: 1;
+  padding: 12px 18px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: var(--bg);
+}
+.search-input:focus {
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+.search-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  border: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.search-btn.primary {
+  background: linear-gradient(135deg, var(--blue-mid), #1e40af);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+}
+.search-btn.primary:hover {
+  box-shadow: 0 6px 20px rgba(37,99,235,0.5);
+  transform: translateY(-1px);
+}
+.search-btn.secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+.search-btn.secondary:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
 
-    /* 卡片视图 */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-    }
-    .land-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      cursor: pointer;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .land-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-    .card-img {
-      height: 140px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.4);
-      font-size: 40px;
-    }
-    .card-img img { width: 100%; height: 100%; object-fit: cover; }
-    .card-body { padding: 14px; }
-    .card-name {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text-primary);
-    }
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 10px;
-    }
-    .card-tag {
-      padding: 2px 8px;
-      background: var(--bg-secondary);
-      border-radius: 4px;
-      font-size: 11px;
-      color: var(--text-secondary);
-    }
-    .card-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-secondary);
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-    }
-    .card-meta .area { font-size: 15px; font-weight: 700; color: var(--accent); }
-    .card-meta .status { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+.filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-label { font-size: 12px; font-weight: 600; color: var(--text-sub); margin-right: 2px; }
+.filter-select {
+  padding: 7px 12px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 13px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  min-width: 120px;
+  transition: border 0.2s;
+}
+.filter-select:focus, .filter-select { border-color: var(--border); }
+.filter-select:focus { border-color: var(--blue-mid); }
 
-    /* ===== 详情弹窗 ===== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.show { display: flex; }
-    .modal {
-      background: var(--bg-primary);
-      border-radius: 14px;
-      width: 100%;
-      max-width: 720px;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-    .modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      position: sticky;
-      top: 0;
-      background: var(--bg-primary);
-      z-index: 1;
-    }
-    .modal-title { font-size: 17px; font-weight: 600; }
-    .modal-close {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-secondary);
-      cursor: pointer;
-      font-size: 16px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      color: var(--text-secondary);
-    }
-    .modal-close:hover { background: var(--border); }
-    .modal-body { padding: 24px; }
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-    .detail-field {
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      padding: 12px 14px;
-    }
-    .detail-field .label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-    .detail-field .value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-    }
-    .detail-field.full { grid-column: span 2; }
-    .detail-section-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .contact-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: var(--bg-secondary);
-      border-radius: 10px;
-      padding: 14px;
-    }
-    .contact-avatar {
-      width: 44px; height: 44px;
-      background: var(--accent-light);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      color: var(--accent);
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-    .contact-info .name { font-size: 14px; font-weight: 500; }
-    .contact-info .phone { font-size: 13px; color: var(--accent); margin-top: 2px; }
-    .contact-info .remark { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-      padding: 16px 24px;
-      border-top: 1px solid var(--border);
-    }
-    .btn {
-      padding: 9px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
-      border: none;
-      font-weight: 500;
-      transition: all 0.15s;
-    }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: #1d4ed8; }
-    .btn-outline { background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); }
-    .btn-outline:hover { background: var(--bg-secondary); }
+/* 结果栏 */
+.result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.result-count { font-size: 14px; color: var(--text-sub); }
+.result-count strong { color: var(--blue); font-weight: 700; font-size: 16px; }
+.view-toggle { display: flex; gap: 4px; }
+.view-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+  color: var(--text-sub);
+}
+.view-btn.active {
+  background: linear-gradient(135deg, var(--blue-mid), #1e40af);
+  color: #fff;
+  border-color: var(--blue-mid);
+  box-shadow: 0 3px 10px rgba(37,99,235,0.3);
+}
 
-    /* ===== 管理后台 ===== */
-    .admin-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 24px;
-    }
-    .admin-tab {
-      padding: 10px 20px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-      transition: all 0.2s;
-    }
-    .admin-tab:hover { color: var(--accent); }
-    .admin-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-      font-weight: 500;
-    }
-    .admin-page { display: none; }
-    .admin-page.active { display: block; }
+/* 表格 */
+.data-table {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid rgba(30,58,138,0.06);
+  overflow: hidden;
+  width: 100%;
+  overflow-x: auto;
+  box-shadow: var(--shadow);
+}
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--blue);
+  font-size: 12px;
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: #f8faff; cursor: pointer; }
+.col-name { font-weight: 600; color: var(--blue-mid) !important; cursor: pointer; }
+.col-name:hover { text-decoration: underline; }
+td strong { font-weight: 700; color: var(--text); }
 
-    .form-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 24px;
-      max-width: 700px;
-    }
-    .form-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .form-row.single { grid-template-columns: 1fr; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
-    .form-group label .required { color: var(--red); }
-    .form-input, .form-select, .form-textarea {
-      padding: 9px 12px;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      font-size: 13px;
-      outline: none;
-      transition: border 0.2s;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--accent);
-    }
-    .form-textarea { resize: vertical; min-height: 80px; }
-    .form-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-    .upload-area {
-      border: 2px dashed var(--border);
-      border-radius: 10px;
-      padding: 30px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      color: var(--text-secondary);
-    }
-    .upload-area:hover { border-color: var(--accent); background: var(--accent-light); }
-    .upload-icon { font-size: 28px; margin-bottom: 8px; }
-    .upload-text { font-size: 13px; }
-    .upload-text span { color: var(--accent); }
-    .upload-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+/* 卡片视图 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+.land-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid rgba(30,58,138,0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.25s;
+  box-shadow: var(--shadow);
+}
+.land-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: rgba(37,99,235,0.2);
+}
+.card-img {
+  height: 150px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #60a5fa 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.card-img .card-img-icon { font-size: 44px; opacity: 0.4; position: relative; z-index: 1; }
+.card-img img { width: 100%; height: 100%; object-fit: cover; }
+.card-body { padding: 16px; }
+.card-name { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: var(--text); line-height: 1.4; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.card-tag {
+  padding: 3px 10px;
+  background: var(--bg);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  gap: 8px;
+}
+.card-meta .area { font-size: 18px; font-weight: 800; color: var(--blue-mid); }
+.card-meta .status { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+.card-meta .invest {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    /* 导入提示 */
-    .import-tip {
-      background: var(--accent-light);
-      border: 1px solid #bfdbfe;
-      border-radius: 10px;
-      padding: 16px 20px;
-      margin-bottom: 20px;
-      font-size: 13px;
-      color: var(--accent);
-    }
-    .import-tip strong { font-weight: 600; }
-    .import-tip ul { margin-top: 8px; padding-left: 18px; color: var(--text-secondary); }
-    .import-tip li { margin-bottom: 4px; }
+/* ===== 详情弹窗 ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,30,60,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--card);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 780px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+.modal-header {
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-radius: 18px 18px 0 0;
+}
+.modal-title { font-size: 18px; font-weight: 700; color: var(--blue); flex: 1; line-height: 1.4; }
+.modal-close {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-sub);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+.modal-body { padding: 28px; }
 
-    /* 数据列表 */
-    .data-list-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .data-list-item .idx {
-      width: 28px; height: 28px;
-      background: var(--bg-secondary);
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      flex-shrink: 0;
-    }
-    .data-list-item .info { flex: 1; min-width: 0; }
-    .data-list-item .name { font-size: 14px; font-weight: 500; }
-    .data-list-item .meta { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-    .data-list-item .actions { display: flex; gap: 6px; }
-    .data-list-item .action-btn {
-      padding: 4px 10px;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      font-size: 11px;
-      cursor: pointer;
-      background: var(--bg-primary);
-      color: var(--text-secondary);
-      transition: all 0.15s;
-    }
-    .data-list-item .action-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .data-list-item .action-btn.danger:hover { border-color: var(--red); color: var(--red); }
+/* 详情图片轮播 */
+.detail-images {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.detail-images::-webkit-scrollbar { height: 4px; }
+.detail-images::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.detail-img-thumb {
+  width: 120px; height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: border 0.2s, transform 0.2s;
+}
+.detail-img-thumb:hover { border-color: var(--blue-mid); transform: scale(1.05); }
+.detail-img-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.detail-img-thumb.add-img {
+  border-style: dashed;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  color: var(--text-muted);
+}
+.detail-img-placeholder {
+  background: linear-gradient(135deg, var(--blue-light), var(--purple-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  color: rgba(255,255,255,0.5);
+  width: 100%; height: 100%;
+}
 
-    /* 状态标签 */
-    .status-recruit { background: var(--green-light); color: var(--green); }
-    .status-negotiate { background: var(--amber-light); color: var(--amber); }
-    .status-signed { background: var(--purple-light); color: var(--purple); }
-    .status-other { background: var(--bg-secondary); color: var(--text-secondary); }
+.detail-tags {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.detail-tags .card-tag {
+  font-size: 12px;
+  padding: 4px 14px;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.detail-field {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.detail-field .label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.detail-field .value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+}
+.detail-field.full { grid-column: span 2; }
+.detail-field.highlight { background: var(--blue-light); border-color: #bfdbfe; }
+.detail-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--blue-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, var(--blue-light), #eff6ff);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #bfdbfe;
+}
+.contact-avatar {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, var(--blue-mid), #3b82f6);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 800;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+.contact-info .name { font-size: 15px; font-weight: 700; }
+.contact-info .phone { font-size: 14px; color: var(--blue-mid); margin-top: 3px; font-weight: 600; cursor: pointer; }
+.contact-info .phone:hover { text-decoration: underline; }
+.modal-actions {
+  display: flex; gap: 10px; padding: 18px 28px;
+  border-top: 1px solid var(--border);
+  background: #f8fafc;
+  border-radius: 0 0 18px 18px;
+}
+.btn {
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  border: none;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--blue-mid), #1e40af);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+}
+.btn-primary:hover { box-shadow: 0 6px 20px rgba(37,99,235,0.45); transform: translateY(-1px); }
+.btn-outline { background: var(--card); color: var(--text); border: 2px solid var(--border); }
+.btn-outline:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+.btn-danger { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
+.btn-danger:hover { background: var(--red); color: #fff; }
 
-    /* 分页 */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 24px;
-    }
-    .page-btn {
-      width: 34px; height: 34px;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      background: var(--bg-primary);
-      cursor: pointer;
-      font-size: 13px;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s;
-      color: var(--text-secondary);
-    }
-    .page-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* ===== 管理后台 ===== */
+.admin-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 3px solid var(--border);
+  margin-bottom: 28px;
+  background: var(--card);
+  padding: 0 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.admin-tab {
+  padding: 14px 24px;
+  font-size: 14px;
+  color: var(--text-sub);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition: all 0.2s;
+  font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+}
+.admin-tab:hover { color: var(--blue-mid); }
+.admin-tab.active {
+  color: var(--blue-mid);
+  border-bottom-color: var(--blue-mid);
+  background: #eff6ff;
+}
+.admin-page { display: none; }
+.admin-page.active { display: block; }
 
-    /* 空状态 */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-    }
-    .empty-icon { font-size: 48px; margin-bottom: 12px; }
-    .empty-state p { font-size: 14px; }
+.form-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid rgba(30,58,138,0.06);
+  padding: 28px;
+  max-width: 780px;
+  box-shadow: var(--shadow);
+}
+.form-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--blue-light);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.form-row.single { grid-template-columns: 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+.form-group label .required { color: var(--red); }
+.form-input, .form-select, .form-textarea {
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  background: #fff;
+}
+.form-textarea { resize: vertical; min-height: 90px; }
+.form-actions {
+  display: flex; gap: 12px; margin-top: 28px;
+  padding-top: 22px; border-top: 1px solid var(--border);
+}
 
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--text-primary);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 13px;
-      z-index: 9999;
-      display: none;
-      animation: slideUp 0.3s ease;
-    }
-    .toast.show { display: block; }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+/* 图片上传 */
+.img-upload-section { margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border); }
+.img-upload-label { font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.img-upload-label span { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+.img-preview-grid {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.img-preview-item {
+  width: 90px; height: 70px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+.img-preview-item img { width: 100%; height: 100%; object-fit: cover; }
+.img-preview-item .img-remove {
+  position: absolute; top: 2px; right: 2px;
+  width: 20px; height: 20px;
+  background: rgba(0,0,0,0.6);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.img-preview-item:hover .img-remove { opacity: 1; }
+.img-preview-item .img-url-input {
+  font-size: 10px;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.img-add-btn {
+  width: 90px; height: 70px;
+  border-radius: 10px;
+  border: 2px dashed var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  color: var(--text-muted);
+  font-size: 11px;
+  transition: all 0.2s;
+}
+.img-add-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); background: var(--blue-light); }
+.img-add-btn .plus { font-size: 22px; font-weight: 300; }
 
-    /* 镇街分布列表 */
-    .town-stat-list { display: flex; flex-direction: column; gap: 10px; }
-    .town-stat-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-    }
-    .town-stat-name { width: 60px; color: var(--text-secondary); flex-shrink: 0; }
-    .town-stat-bar-wrap { flex: 1; height: 20px; background: var(--bg-secondary); border-radius: 10px; overflow: hidden; }
-    .town-stat-bar { height: 100%; background: var(--accent); border-radius: 10px; transition: width 0.5s ease; }
-    .town-stat-num { width: 24px; text-align: right; font-weight: 600; font-size: 12px; color: var(--accent); }
+/* 导入提示 */
+.import-tip {
+  background: linear-gradient(135deg, var(--blue-light), #eff6ff);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--blue);
+}
+.import-tip strong { font-weight: 700; font-size: 14px; }
+.import-tip ul { margin-top: 10px; padding-left: 20px; color: var(--text-sub); }
+.import-tip li { margin-bottom: 5px; }
+.import-tip li code { background: #dbeafe; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
 
-    /* 投资方向饼图 */
-    .direction-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .direction-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-secondary); }
-    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+/* 数据管理列表 */
+.data-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.data-list-header h3 { font-size: 16px; font-weight: 700; color: var(--blue); }
+.data-list-count { font-size: 13px; color: var(--text-sub); }
+.data-list-item {
+  background: var(--card);
+  border: 1px solid rgba(30,58,138,0.06);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.data-list-item:hover { box-shadow: var(--shadow-md); border-color: rgba(37,99,235,0.2); }
+.data-list-item .idx {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--blue-mid), #3b82f6);
+  color: #fff;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.data-list-item .info { flex: 1; min-width: 0; }
+.data-list-item .name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.data-list-item .meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 8px; flex-wrap: wrap; }
+.data-list-item .meta span { background: var(--bg); padding: 1px 8px; border-radius: 4px; }
+.data-list-item .actions { display: flex; gap: 6px; flex-shrink: 0; }
+.action-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--text-sub);
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.action-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); background: var(--blue-light); }
+.action-btn.edit-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+.action-btn.danger:hover { border-color: var(--red); color: var(--red); background: var(--red-light); }
 
-    /* 响应式 */
-    @media (max-width: 768px) {
-      .stat-grid { grid-template-columns: 1fr 1fr; }
-      .chart-grid { grid-template-columns: 1fr; }
-      .chart-card.full-width, .chart-card.half-width { grid-column: span 1; }
-      .detail-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .nav-tabs { display: none; }
-      .card-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+/* 状态 */
+.status-recruit { background: var(--green-light); color: var(--green); }
+.status-negotiate { background: var(--amber-light); color: var(--amber); }
+.status-signed { background: var(--purple-light); color: var(--purple); }
+.status-other { background: var(--bg); color: var(--text-sub); }
+
+/* 分页 */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; margin-top: 28px;
+}
+.page-btn {
+  min-width: 38px; height: 38px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  color: var(--text-sub);
+  font-weight: 600;
+  padding: 0 8px;
+}
+.page-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+.page-btn.active {
+  background: linear-gradient(135deg, var(--blue-mid), #1e40af);
+  color: #fff; border-color: var(--blue-mid);
+  box-shadow: 0 3px 10px rgba(37,99,235,0.3);
+}
+
+/* 空状态 */
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.empty-icon { font-size: 52px; margin-bottom: 14px; }
+.empty-state p { font-size: 14px; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  display: none;
+  animation: toastIn 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  max-width: 300px;
+}
+.toast.show { display: block; }
+.toast.success { background: linear-gradient(135deg, #065f46, #059669); }
+.toast.error { background: linear-gradient(135deg, #991b1b, #dc2626); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 镇街分布 */
+.town-stat-list { display: flex; flex-direction: column; gap: 10px; }
+.town-stat-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.town-stat-name { width: 56px; color: var(--text-sub); flex-shrink: 0; font-weight: 600; }
+.town-stat-bar-wrap { flex: 1; height: 22px; background: var(--bg); border-radius: 11px; overflow: hidden; }
+.town-stat-bar { height: 100%; background: linear-gradient(90deg, var(--blue-mid), #60a5fa); border-radius: 11px; transition: width 0.6s ease; }
+.town-stat-num { width: 26px; text-align: right; font-weight: 700; font-size: 12px; color: var(--blue-mid); }
+
+/* 方向图例 */
+.direction-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.direction-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-sub); }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* 导出按钮 */
+.export-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.export-bar .export-info { font-size: 13px; color: var(--blue); font-weight: 600; }
+.export-btn {
+  padding: 8px 18px;
+  background: linear-gradient(135deg, var(--blue-mid), #1e40af);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(37,99,235,0.3);
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.export-btn:hover { box-shadow: 0 5px 15px rgba(37,99,235,0.45); transform: translateY(-1px); }
+
+/* ===== 响应式 ===== */
+/* 手机 */
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; height: 56px; }
+  .nav-brand { font-size: 14px; margin-right: 0; }
+  .nav-brand .badge { display: none; }
+  .nav-tabs { display: none; }
+  .menu-toggle { display: flex; }
+  .nav-right .source-tag { display: none; }
+  .container { padding: 16px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .chart-grid { grid-template-columns: 1fr; }
+  .chart-card.full-width, .chart-card.half-width { grid-column: span 1; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-field.full { grid-column: span 1; }
+  .form-row { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal { max-width: 100%; border-radius: 14px 14px 0 0; max-height: 95vh; }
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal-actions { flex-wrap: wrap; }
+  .admin-tabs { overflow-x: auto; }
+  .data-list-item .meta { font-size: 11px; }
+  .data-list-item .actions { flex-direction: column; gap: 4px; }
+  .data-table { font-size: 12px; }
+  .data-table th, .data-table td { padding: 8px 10px; }
+  .export-bar { flex-direction: column; align-items: flex-start; }
+  .img-preview-item { width: 70px; height: 55px; }
+  .img-add-btn { width: 70px; height: 55px; }
+}
+
+/* 平板 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .card-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* 平板横屏/桌面大屏 */
+@media (min-width: 1400px) {
+  .card-grid { grid-template-columns: repeat(4, 1fr); }
+}
+</style>
 </head>
 <body>
 
 <!-- 顶部导航 -->
 <nav class="navbar">
   <div class="nav-brand">
-    <div class="dot"></div>
-    龙门县农业农村招商引资地块信息平台
-    <span style="font-size:11px;font-weight:400;color:var(--green);background:var(--green-light);padding:2px 8px;border-radius:10px;margin-left:8px;">共71条真实数据</span>
+    <div class="logo-icon">🏛️</div>
+    龙门县农业农村招商引资地块
+    <span class="badge">共71条数据</span>
   </div>
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchPage('overview', this)">综合总览</div>
-    <div class="nav-tab" onclick="switchPage('search', this)">快速查询 <span class="badge-new">NEW</span></div>
-    <div class="nav-tab" onclick="switchPage('admin', this)">管理后台</div>
+    <div class="nav-tab active" onclick="switchPage('overview', this)">📊 综合总览</div>
+    <div class="nav-tab" onclick="switchPage('search', this)">🔍 快速查询<span class="tab-badge">HOT</span></div>
+    <div class="nav-tab" onclick="switchPage('admin', this)">⚙️ 管理后台</div>
   </div>
+  <button class="menu-toggle" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-right">
-    <span style="font-size:12px;color:var(--text-muted);">数据来源：龙门县农业农村局 · 2026年5月</span>
+    <span class="source-tag">📍 数据来源：龙门县农业农村局 · 2026年5月</span>
   </div>
 </nav>
+
+<!-- 移动端菜单 -->
+<div id="mobile-menu" style="display:none;position:fixed;top:56px;left:0;right:0;background:#fff;z-index:99;border-bottom:1px solid var(--border);box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+  <div onclick="switchPage('overview');closeMobileMenu();" style="padding:14px 24px;border-bottom:1px solid var(--border);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">📊 综合总览</div>
+  <div onclick="switchPage('search');closeMobileMenu();" style="padding:14px 24px;border-bottom:1px solid var(--border);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">🔍 快速查询</div>
+  <div onclick="switchPage('admin');closeMobileMenu();" style="padding:14px 24px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;">⚙️ 管理后台</div>
+</div>
 
 <div class="container">
 
@@ -838,7 +1083,7 @@
     <div class="overview-header">
       <div>
         <div class="overview-title">综合总览</div>
-        <div class="overview-subtitle">龙门县农业农村领域招商引资地块资源真实数据 · 持续更新中</div>
+        <div class="overview-subtitle">龙门县农业农村领域招商引资地块资源 · 10个镇街全覆盖 · 持续更新</div>
       </div>
     </div>
 
@@ -848,7 +1093,7 @@
     <!-- 图表区 -->
     <div class="chart-grid">
       <div class="chart-card">
-        <div class="chart-title">📊 各镇街地块数量分布</div>
+        <div class="chart-title">📊 各镇街地块数量</div>
         <div class="chart-wrap"><canvas id="chart-town"></canvas></div>
       </div>
       <div class="chart-card">
@@ -864,8 +1109,8 @@
     <!-- 最新地块 -->
     <div class="latest-list">
       <div class="latest-header">
-        <h3>最新录入地块</h3>
-        <a href="#" onclick="event.preventDefault(); switchPage('search', document.querySelectorAll('.nav-tab')[1]);" style="font-size:12px;color:var(--accent);text-decoration:none;">查看全部 →</a>
+        <h3>🏠 最新录入地块</h3>
+        <a href="#" onclick="event.preventDefault(); switchPage('search', document.querySelectorAll('.nav-tab')[1]);" style="font-size:13px;color:var(--blue-mid);text-decoration:none;font-weight:600;">查看全部 →</a>
       </div>
       <div id="latest-list-content"></div>
     </div>
@@ -882,9 +1127,9 @@
 
     <div class="search-box">
       <div class="search-input-wrap">
-        <input class="search-input" id="search-input" type="text" placeholder="搜索地块名称、所在镇街、招商需求、资源类型..." oninput="handleSearch()">
+        <input class="search-input" id="search-input" type="text" placeholder="🔍 搜索地块名称、镇街、招商需求、资源类型..." oninput="handleSearch()">
         <button class="search-btn secondary" onclick="clearSearch()">重置</button>
-        <button class="search-btn" onclick="handleSearch()">🔍 搜索</button>
+        <button class="search-btn primary" onclick="handleSearch()">🔍 搜索</button>
       </div>
       <div class="filter-row" id="filter-row"></div>
     </div>
@@ -892,8 +1137,8 @@
     <div class="result-bar">
       <div class="result-count" id="result-count"></div>
       <div class="view-toggle">
-        <button class="view-btn active" id="view-table-btn" onclick="setView('table')">📋 表格</button>
-        <button class="view-btn" id="view-card-btn" onclick="setView('card')">🃏 卡片</button>
+        <button class="view-btn active" id="view-table-btn" onclick="setView('table')">📋 表格视图</button>
+        <button class="view-btn" id="view-card-btn" onclick="setView('card')">🃏 卡片视图</button>
       </div>
     </div>
 
@@ -906,24 +1151,21 @@
     <div class="overview-header">
       <div>
         <div class="overview-title">管理后台</div>
-        <div class="overview-subtitle">地块数据录入、编辑与导入管理</div>
+        <div class="overview-subtitle">地块数据录入、编辑、图片管理与批量导入</div>
       </div>
     </div>
 
     <div class="admin-tabs">
       <div class="admin-tab active" onclick="switchAdminTab('add', this)">📝 新增地块</div>
-      <div class="admin-tab" onclick="switchAdminTab('import', this)">📥 批量导入</div>
       <div class="admin-tab" onclick="switchAdminTab('list', this)">📂 数据管理</div>
+      <div class="admin-tab" onclick="switchAdminTab('import', this)">📥 批量导入</div>
     </div>
 
-    <!-- 新增地块 -->
+    <!-- 新增/编辑地块 -->
     <div id="admin-add" class="admin-page active">
-      <div class="import-tip">
-        <strong>💡 提示</strong>：当前为演示模式，数据仅保存在浏览器本地（刷新页面将重置）。
-        正式上线后数据将存储在云端数据库，支持多端同步。
-      </div>
       <div class="form-card">
-        <div class="form-title">地块信息录入</div>
+        <div class="form-title" id="form-title">📝 地块信息录入</div>
+        <input type="hidden" id="f-edit-id" value="">
         <div class="form-row">
           <div class="form-group">
             <label>地块名称 <span class="required">*</span></label>
@@ -976,6 +1218,16 @@
         </div>
         <div class="form-row">
           <div class="form-group">
+            <label>具体地址</label>
+            <input class="form-input" id="f-address" type="text" placeholder="详细地址（选填）">
+          </div>
+          <div class="form-group">
+            <label>地块权属</label>
+            <input class="form-input" id="f-ownership" type="text" placeholder="如：村集体所有">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
             <label>联系人</label>
             <input class="form-input" id="f-contact" type="text" placeholder="联系人姓名">
           </div>
@@ -990,22 +1242,47 @@
             <textarea class="form-textarea" id="f-remark" placeholder="补充说明，如交通条件、配套设施、优惠政策等..."></textarea>
           </div>
         </div>
-        <div class="form-row single">
-          <div class="form-group">
-            <label>地块图片</label>
-            <div class="upload-area" onclick="document.getElementById('f-img').click()">
-              <div class="upload-icon">📷</div>
-              <div class="upload-text">点击上传图片 或 <span>拖拽到此处</span></div>
-              <div class="upload-hint">支持 JPG、PNG，单张不超过 5MB</div>
+
+        <!-- 图片上传 -->
+        <div class="img-upload-section">
+          <div class="img-upload-label">
+            🖼️ 地块图片 <span>（最多上传3张，建议输入图片URL）</span>
+          </div>
+          <div class="img-preview-grid" id="img-preview-grid">
+            <div class="img-preview-item" id="img-slot-0">
+              <div class="detail-img-placeholder">🏞️</div>
+              <input class="img-url-input" id="img-url-0" type="text" placeholder="粘贴图片URL" onchange="updateImgFromUrl(0, this.value)">
+              <button class="img-remove" onclick="removeImg(0)">✕</button>
             </div>
-            <input type="file" id="f-img" accept="image/*" style="display:none">
+            <div class="img-preview-item" id="img-slot-1">
+              <div class="detail-img-placeholder">🏞️</div>
+              <input class="img-url-input" id="img-url-1" type="text" placeholder="粘贴图片URL" onchange="updateImgFromUrl(1, this.value)">
+              <button class="img-remove" onclick="removeImg(1)">✕</button>
+            </div>
+            <div class="img-preview-item" id="img-slot-2">
+              <div class="detail-img-placeholder">🏞️</div>
+              <input class="img-url-input" id="img-url-2" type="text" placeholder="粘贴图片URL" onchange="updateImgFromUrl(2, this.value)">
+              <button class="img-remove" onclick="removeImg(2)">✕</button>
+            </div>
           </div>
         </div>
+
         <div class="form-actions">
-          <button class="btn btn-primary" onclick="submitForm()">提交录入</button>
-          <button class="btn btn-outline" onclick="resetForm()">重置表单</button>
+          <button class="btn btn-primary" id="form-submit-btn" onclick="submitForm()">✅ 提交录入</button>
+          <button class="btn btn-outline" onclick="resetForm()">🔄 重置表单</button>
+          <button class="btn btn-outline" id="cancel-edit-btn" style="display:none;" onclick="cancelEdit()">❌ 取消编辑</button>
         </div>
       </div>
+    </div>
+
+    <!-- 数据管理 -->
+    <div id="admin-list" class="admin-page">
+      <div class="export-bar">
+        <div class="export-info">📋 共 <strong id="admin-total-count">0</strong> 条地块数据</div>
+        <button class="export-btn" onclick="exportData()">📤 导出全部数据 (JSON)</button>
+      </div>
+      <div id="admin-list-content"></div>
+      <div class="pagination" id="admin-pagination"></div>
     </div>
 
     <!-- 批量导入 -->
@@ -1013,33 +1290,29 @@
       <div class="import-tip">
         <strong>📥 批量导入说明</strong>
         <ul>
-          <li>支持 <strong>.xlsx / .csv</strong> 格式，请先下载标准模板</li>
-          <li>必填列：地块名称、所在镇街、面积（亩）、土地类型、资源类型</li>
-          <li>选填列：建议投资方向、预计投资额、招商状态、联系人、联系电话、备注</li>
-          <li>建议单次导入不超过 500 条，超出请分批导入</li>
+          <li>支持 <code>.xlsx / .csv</code> 格式，请先下载标准模板</li>
+          <li>必填列：<code>name</code>（地块名称）、<code>town</code>（镇街）、<code>area</code>（面积）、<code>landType</code>（土地类型）、<code>resourceType</code>（资源类型）</li>
+          <li>选填列：<code>investDir</code>（投资方向）、<code>investAmount</code>（投资额）、<code>status</code>（状态）、<code>contact</code>（联系人）、<code>phone</code>（电话）、<code>remark</code>（备注）</li>
+          <li>建议单次导入不超过 <code>500</code> 条，超出请分批导入</li>
+          <li>导入后请在「数据管理」页面审核确认</li>
         </ul>
       </div>
       <div class="form-card">
-        <div class="form-title">下载模板 &amp; 上传数据</div>
-        <div style="display:flex;gap:16px;align-items:center;margin-bottom:20px;">
-          <button class="btn btn-outline" onclick="downloadTemplate()">📄 下载标准模板 (xlsx)</button>
-          <span style="font-size:12px;color:var(--text-muted);">文件已包含所有字段说明和示例数据</span>
+        <div class="form-title">📄 下载模板 &amp; 上传数据</div>
+        <div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="downloadTemplate()">📥 下载标准模板 (xlsx)</button>
+          <span style="font-size:12px;color:var(--text-muted);">文件包含所有字段说明和示例数据</span>
         </div>
         <div class="form-group">
-          <label>上传已填好的 Excel 文件</label>
-          <div class="upload-area" onclick="document.getElementById('f-import').click()">
-            <div class="upload-icon">📁</div>
-            <div class="upload-text">点击选择文件 或 <span>拖拽到此处</span></div>
-            <div class="upload-hint">支持 .xlsx / .csv 文件（正式版将自动解析并入库）</div>
+          <label>上传已填好的数据文件</label>
+          <div class="upload-area" style="border:2px dashed var(--border);border-radius:14px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;color:var(--text-sub);" onclick="document.getElementById('f-import').click()" ondragover="event.preventDefault();this.style.borderColor='var(--blue-mid)';this.style.background='var(--blue-light)';" ondragleave="this.style.borderColor='var(--border)';this.style.background='';">
+            <div class="upload-icon" style="font-size:32px;margin-bottom:10px;">📁</div>
+            <div class="upload-text" style="font-size:14px;font-weight:600;">点击选择文件 或 <span style="color:var(--blue-mid);">拖拽到此处</span></div>
+            <div class="upload-hint" style="font-size:12px;color:var(--text-muted);margin-top:6px;">支持 .xlsx / .csv 文件</div>
           </div>
           <input type="file" id="f-import" accept=".xlsx,.csv" style="display:none" onchange="handleImport(this)">
         </div>
       </div>
-    </div>
-
-    <!-- 数据管理 -->
-    <div id="admin-list" class="admin-page">
-      <div id="admin-list-content"></div>
     </div>
   </div>
 </div>
@@ -1054,7 +1327,7 @@
     <div class="modal-body" id="modal-body"></div>
     <div class="modal-actions">
       <button class="btn btn-primary" onclick="closeModal()">关闭</button>
-      <button class="btn btn-outline" onclick="copyLink()">复制链接</button>
+      <button class="btn btn-outline" onclick="copyLink()">🔗 复制链接</button>
     </div>
   </div>
 </div>
@@ -1063,17 +1336,27 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== 真实数据（已从 data.js 加载） =====
-// 数据字段：id, name, town, address, area, landType, ownership,
-//          investDir, investAmount, status, contact, phone, remark, resourceType, extra
+// ===== 数据（从 data.js 加载） =====
+// 字段：id, name, town, address, area, landType, ownership,
+//      investDir, investAmount, status, contact, phone, remark, resourceType, extra, images[]
 
 // ===== 全局变量 =====
+// 响应式分页：手机8条，平板12条，桌面16条
+function getPageSize() {
+  const w = window.innerWidth;
+  if (w <= 768) return 8;
+  if (w <= 1024) return 12;
+  return 16;
+}
+
 let currentView = 'table';
 let currentPage = 1;
-const pageSize = 10;
+let adminPage = 1;
+let pageSize = getPageSize();
 let filteredData = [];
+let editingId = null; // 编辑时的ID
 
-// ===== 动态提取筛选选项 =====
+// ===== 提取筛选选项 =====
 const towns = [...new Set(LAND_DATA.map(d => d.town))].sort();
 const landTypes = [...new Set(LAND_DATA.map(d => d.landType).filter(Boolean))].sort();
 const resourceTypes = [...new Set(LAND_DATA.map(d => d.resourceType).filter(Boolean))].sort();
@@ -1088,8 +1371,17 @@ function init() {
   handleSearch();
   populateFormSelects();
   renderAdminList();
+  window.addEventListener('resize', () => {
+    const newSize = getPageSize();
+    if (newSize !== pageSize) {
+      pageSize = newSize;
+      currentPage = 1;
+      renderResult();
+    }
+  });
 }
 
+// ===== 筛选器 =====
 function populateFilters() {
   const filterRow = document.getElementById('filter-row');
   filterRow.innerHTML = `
@@ -1119,12 +1411,14 @@ function populateFilters() {
   `;
 }
 
+// ===== 表单下拉 =====
 function populateFormSelects() {
   document.getElementById('f-town').innerHTML = '<option value="">请选择镇街</option>' + towns.map(t => `<option value="${t}">${t}</option>`).join('');
   document.getElementById('f-land-type').innerHTML = '<option value="">请选择土地类型</option>' + landTypes.map(l => `<option value="${l}">${l}</option>`).join('');
   document.getElementById('f-resource-type').innerHTML = '<option value="">请选择资源类型</option>' + resourceTypes.map(r => `<option value="${r}">${r}</option>`).join('');
 }
 
+// ===== 统计卡片 =====
 function populateStatGrid() {
   const total = LAND_DATA.length;
   const recruiting = LAND_DATA.filter(d => d.status === '招募中').length;
@@ -1132,19 +1426,19 @@ function populateStatGrid() {
   const totalArea = Math.round(LAND_DATA.reduce((s, d) => s + (d.area || 0), 0));
 
   const stats = [
-    { icon: '🏞️', bg: '#dbeafe', color: '#2563eb', value: total, label: '地块总数', sub: `覆盖 ${towns.length} 个镇街` },
-    { icon: '📈', bg: '#dcfce7', color: '#16a34a', value: recruiting, label: '招募中', sub: '欢迎投资洽谈' },
-    { icon: '🤝', bg: '#fef3c7', color: '#d97706', value: negotiating, label: '洽谈中', sub: '正在推进落地' },
-    { icon: '🌾', bg: '#ede9fe', color: '#7c3aed', value: totalArea.toLocaleString(), label: '总面积（亩）', sub: '可利用土地资源' },
+    { icon: '🏞️', bg: 'linear-gradient(135deg,#dbeafe,#eff6ff)', color: '#2563eb', value: total, label: '地块总数', sub: '覆盖 ' + towns.length + ' 个镇街', subBg: '#dbeafe', subColor: '#2563eb' },
+    { icon: '📈', bg: 'linear-gradient(135deg,#d1fae5,#ecfdf5)', color: '#059669', value: recruiting, label: '招募中', sub: '欢迎投资洽谈', subBg: '#d1fae5', subColor: '#059669' },
+    { icon: '🤝', bg: 'linear-gradient(135deg,#fef3c7,#fffbeb)', color: '#d97706', value: negotiating, label: '洽谈中', sub: '正在推进落地', subBg: '#fef3c7', subColor: '#d97706' },
+    { icon: '🌾', bg: 'linear-gradient(135deg,#ede9fe,#f5f3ff)', color: '#7c3aed', value: totalArea.toLocaleString(), label: '总面积（亩）', sub: '可利用土地资源', subBg: '#ede9fe', subColor: '#7c3aed' },
   ];
 
   document.getElementById('stat-grid').innerHTML = stats.map(s => `
     <div class="stat-card">
-      <div class="stat-icon" style="background:${s.bg};color:${s.color}">${s.icon}</div>
+      <div class="stat-icon" style="background:${s.bg};">${s.icon}</div>
       <div class="stat-info">
         <h3 style="color:${s.color}">${s.value}</h3>
         <p>${s.label}</p>
-        <span class="stat-trend trend-new">${s.sub}</span>
+        <span class="sub-tag" style="background:${s.subBg};color:${s.subColor};">${s.sub}</span>
       </div>
     </div>
   `).join('');
@@ -1152,63 +1446,58 @@ function populateStatGrid() {
 
 // ===== 图表 =====
 function renderCharts() {
-  // 镇街分布（动态从真实数据提取）
   const townCount = {};
   towns.forEach(t => townCount[t] = LAND_DATA.filter(d => d.town === t).length);
   new Chart(document.getElementById('chart-town'), {
     type: 'bar',
     data: {
       labels: towns,
-      datasets: [{ label: '地块数量', data: towns.map(t => townCount[t] || 0), backgroundColor: 'rgba(37,99,235,0.7)', borderRadius: 4 }]
+      datasets: [{ label: '地块数量', data: towns.map(t => townCount[t] || 0), backgroundColor: 'rgba(37,99,235,0.75)', borderRadius: 6 }]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-    }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
 
-  // 资源类型
   const resourceCount = {};
   resourceTypes.forEach(r => resourceCount[r] = LAND_DATA.filter(d => d.resourceType === r).length);
-  const colors = ['#2563eb','#16a34a','#d97706','#7c3aed','#dc2626','#0891b2','#db2777','#65a30d'];
+  const colors = ['#2563eb','#059669','#d97706','#7c3aed','#dc2626','#0891b2','#db2777','#65a30d'];
   new Chart(document.getElementById('chart-resource'), {
     type: 'doughnut',
     data: {
       labels: resourceTypes,
       datasets: [{ data: resourceTypes.map(r => resourceCount[r] || 0), backgroundColor: colors }]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-    }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
   });
 
-  // 招商状态
   const statusCount = { '招募中': LAND_DATA.filter(d => d.status === '招募中').length, '洽谈中': LAND_DATA.filter(d => d.status === '洽谈中').length, '已落地': LAND_DATA.filter(d => d.status === '已落地').length };
   new Chart(document.getElementById('chart-status'), {
     type: 'bar',
     data: {
       labels: ['招募中', '洽谈中', '已落地'],
-      datasets: [{ label: '地块数量', data: [statusCount['招募中'], statusCount['洽谈中'], statusCount['已落地']], backgroundColor: ['rgba(22,163,74,0.7)', 'rgba(217,119,6,0.7)', 'rgba(124,58,237,0.7)'], borderRadius: 4 }]
+      datasets: [{ label: '地块数量', data: [statusCount['招募中'], statusCount['洽谈中'], statusCount['已落地']], backgroundColor: ['rgba(5,150,105,0.75)', 'rgba(217,119,6,0.75)', 'rgba(124,58,237,0.75)'], borderRadius: 6 }]
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-    }
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
   });
 }
 
 // ===== 最新地块列表 =====
+// 响应式：手机显示5条，平板6条，桌面8条
+function getLatestCount() {
+  const w = window.innerWidth;
+  if (w <= 768) return 5;
+  if (w <= 1024) return 6;
+  return 8;
+}
+
 function renderLatestList() {
-  const list = LAND_DATA.slice(0, 8);
+  const count = getLatestCount();
+  const list = LAND_DATA.slice(0, count);
   document.getElementById('latest-list-content').innerHTML = list.map((d, i) => `
     <div class="latest-item" onclick="openDetail(${d.id})">
       <div class="latest-num">${String(i+1).padStart(2,'0')}</div>
       <div class="latest-name">${d.name}</div>
       <div class="latest-town">${d.town}</div>
-      <div class="latest-area">${d.area}亩</div>
+      <div class="latest-area">${d.area}<small>亩</small></div>
       <span class="latest-status ${getStatusClass(d.status)}">${d.status}</span>
     </div>
   `).join('');
@@ -1216,14 +1505,14 @@ function renderLatestList() {
 
 // ===== 搜索与筛选 =====
 function handleSearch() {
-  const keyword = document.getElementById('search-input')?.value?.toLowerCase() || '';
+  const keyword = (document.getElementById('search-input')?.value || '').toLowerCase();
   const town = document.getElementById('filter-town')?.value || '';
   const resource = document.getElementById('filter-resource')?.value || '';
   const status = document.getElementById('filter-status')?.value || '';
   const areaRange = document.getElementById('filter-area')?.value || '';
 
   filteredData = LAND_DATA.filter(d => {
-    const matchKeyword = !keyword || d.name.toLowerCase().includes(keyword) || (d.town || '').includes(keyword) || (d.address || '').includes(keyword) || (d.investDir || '').includes(keyword) || (d.remark || '').includes(keyword) || (d.landType || '').includes(keyword);
+    const matchKeyword = !keyword || (d.name || '').toLowerCase().includes(keyword) || (d.town || '').includes(keyword) || (d.address || '').includes(keyword) || (d.investDir || '').toLowerCase().includes(keyword) || (d.remark || '').toLowerCase().includes(keyword) || (d.landType || '').includes(keyword) || (d.resourceType || '').includes(keyword);
     const matchTown = !town || d.town === town;
     const matchResource = !resource || d.resourceType === resource;
     const matchStatus = !status || d.status === status;
@@ -1236,6 +1525,7 @@ function handleSearch() {
   });
 
   currentPage = 1;
+  pageSize = getPageSize();
   renderResult();
 }
 
@@ -1254,7 +1544,8 @@ function renderResult() {
   const start = (currentPage - 1) * pageSize;
   const pageData = filteredData.slice(start, start + pageSize);
 
-  document.getElementById('result-count').innerHTML = `共找到 <strong>${total}</strong> 个地块`;
+  const pageSizeLabel = pageSize >= 16 ? '桌面' : pageSize >= 12 ? '平板' : '手机';
+  document.getElementById('result-count').innerHTML = `共找到 <strong>${total}</strong> 个地块 <span style="font-size:11px;color:var(--text-muted);">(每页${pageSize}条，${pageSizeLabel}适配)</span>`;
 
   if (currentView === 'table') {
     renderTable(pageData);
@@ -1262,90 +1553,82 @@ function renderResult() {
     renderCard(pageData);
   }
 
-  renderPagination(totalPages);
+  renderPagination(totalPages, 'pagination', 'currentPage', 'goPage');
 }
 
 function renderTable(data) {
   if (!data.length) {
-    document.getElementById('result-content').innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>未找到匹配的地块，请调整筛选条件</p></div>`;
+    document.getElementById('result-content').innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>未找到匹配的地块，请调整筛选条件</p></div>';
     return;
   }
-  document.getElementById('result-content').innerHTML = `
-    <div class="data-table">
-      <table>
-        <thead>
-          <tr>
-            <th>序号</th><th>地块名称</th><th>镇街</th><th>面积（亩）</th><th>土地类型</th><th>资源类型</th><th>招商状态</th><th>投资额（万元）</th><th>联系人</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${data.map((d, i) => `
-            <tr onclick="openDetail(${d.id})">
-              <td>${String(LAND_DATA.indexOf(d)+1).padStart(2,'0')}</td>
-              <td class="col-name" title="${d.name}">${d.name.length > 18 ? d.name.slice(0,18)+'…' : d.name}</td>
-              <td>${d.town}</td>
-              <td><strong>${d.area || '-'}</strong></td>
-              <td>${d.landType || '-'}</td>
-              <td>${d.resourceType || '-'}</td>
-              <td><span class="latest-status ${getStatusClass(d.status)}">${d.status}</span></td>
-              <td>${d.investAmount > 0 ? d.investAmount.toLocaleString() : '-'}</td>
-              <td>${d.contact || '-'}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
+  document.getElementById('result-content').innerHTML = `<div class="data-table"><table><thead><tr><th>序号</th><th>地块名称</th><th>镇街</th><th>面积</th><th>土地类型</th><th>资源类型</th><th>招商状态</th><th>投资额</th><th>联系人</th></tr></thead><tbody>${data.map((d, i) => `<tr onclick="openDetail(${d.id})"><td>${String(startIdx(d)+1).padStart(2,'0')}</td><td class="col-name">${d.name.length > 16 ? d.name.slice(0,16)+'…' : d.name}</td><td>${d.town}</td><td><strong>${d.area || '-'}亩</strong></td><td>${d.landType || '-'}</td><td>${d.resourceType || '-'}</td><td><span class="latest-status ${getStatusClass(d.status)}">${d.status}</span></td><td>${d.investAmount > 0 ? d.investAmount.toLocaleString() : '-'}</td><td>${d.contact || '-'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function startIdx(d) {
+  return filteredData.indexOf(d);
 }
 
 function renderCard(data) {
   if (!data.length) {
-    document.getElementById('result-content').innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>未找到匹配的地块，请调整筛选条件</p></div>`;
+    document.getElementById('result-content').innerHTML = '<div class="empty-state"><div class="empty-icon">🃏</div><p>未找到匹配的地块</p></div>';
     return;
   }
-  document.getElementById('result-content').innerHTML = `
-    <div class="card-grid">
-      ${data.map(d => `
-        <div class="land-card" onclick="openDetail(${d.id})">
-          <div class="card-img" style="background:linear-gradient(135deg,var(--accent-light) 0%,var(--purple-light) 100%)">
-            <span style="font-size:40px;opacity:0.5">🏡</span>
-          </div>
-          <div class="card-body">
-            <div class="card-name">${d.name}</div>
-            <div class="card-tags">
-              <span class="card-tag">${d.town}</span>
-              <span class="card-tag">${d.resourceType || ''}</span>
-              <span class="card-tag">${d.landType || ''}</span>
-            </div>
-            <div class="card-meta">
-              <span>${(d.investDir || '').substring(0, 20)}${(d.investDir || '').length > 20 ? '…' : ''}</span>
-              <span class="area">${d.area || 0}亩</span>
-              <span class="status ${getStatusClass(d.status)}">${d.status}</span>
-            </div>
-          </div>
+  document.getElementById('result-content').innerHTML = `<div class="card-grid">${data.map(d => {
+    const imgs = d.images && d.images.length > 0 ? d.images.filter(Boolean) : [];
+    const imgSrc = imgs[0] || '';
+    return `<div class="land-card" onclick="openDetail(${d.id})">
+      <div class="card-img">
+        ${imgSrc ? `<img src="${imgSrc}" alt="${d.name}" onerror="this.style.display='none';this.parentElement.querySelector('.card-img-icon').style.display='block';"><span class="card-img-icon" style="display:none">🏡</span>` : `<span class="card-img-icon">🏡</span>`}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${d.name}</div>
+        <div class="card-tags">
+          <span class="card-tag">📍${d.town}</span>
+          <span class="card-tag">🏷️${d.resourceType || ''}</span>
+          <span class="card-tag">📐${d.landType || ''}</span>
+          ${imgs.length > 0 ? `<span class="card-tag" style="color:var(--blue-mid);">🖼️×${imgs.length}</span>` : ''}
         </div>
-      `).join('')}
-    </div>
-  `;
+        <div class="card-meta">
+          <span class="invest">${(d.investDir || '').substring(0, 15)}${(d.investDir || '').length > 15 ? '…' : ''}</span>
+          <span class="area">${d.area || 0}亩</span>
+          <span class="status ${getStatusClass(d.status)}">${d.status}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
 }
 
-function renderPagination(totalPages) {
-  const pagination = document.getElementById('pagination');
-  if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+function renderPagination(totalPages, elId, pageVar, goFn) {
+  const container = document.getElementById(elId);
+  if (!container) return;
+  if (totalPages <= 1) { container.innerHTML = ''; return; }
+  const p = parseInt(container.dataset.page || '1');
   let html = '';
-  if (currentPage > 1) html += `<button class="page-btn" onclick="goPage(${currentPage-1})">‹</button>`;
+  if (p > 1) html += `<button class="page-btn" onclick="${goFn}(${p-1})">‹</button>`;
   for (let i = 1; i <= totalPages; i++) {
-    if (totalPages > 7 && Math.abs(i-currentPage) > 2 && i !== 1 && i !== totalPages) {
-      if (i === 2 || i === totalPages-1) html += '<span style="color:var(--text-muted);padding:0 4px;">...</span>';
+    if (totalPages > 7 && Math.abs(i-p) > 2 && i !== 1 && i !== totalPages) {
+      if (i === 2 || i === totalPages-1) html += '<span style="color:var(--text-muted);padding:0 4px;">…</span>';
       continue;
     }
-    html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    html += `<button class="page-btn ${i===p?'active':''}" onclick="${goFn}(${i})">${i}</button>`;
   }
-  if (currentPage < totalPages) html += `<button class="page-btn" onclick="goPage(${currentPage+1})">›</button>`;
-  pagination.innerHTML = html;
+  if (p < totalPages) html += `<button class="page-btn" onclick="${goFn}(${p+1})">›</button>`;
+  container.innerHTML = html;
 }
 
-function goPage(p) { currentPage = p; renderResult(); }
+function goPage(p) {
+  currentPage = p;
+  document.getElementById('pagination').dataset.page = p;
+  renderResult();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goAdminPage(p) {
+  adminPage = p;
+  document.getElementById('admin-pagination').dataset.page = p;
+  renderAdminListPage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function setView(view) {
   currentView = view;
@@ -1358,18 +1641,31 @@ function setView(view) {
 function openDetail(id) {
   const d = LAND_DATA.find(x => x.id === id);
   if (!d) return;
+  const imgs = (d.images || []).filter(Boolean);
+  const imgHtml = imgs.length > 0
+    ? imgs.map((src, i) => `<div class="detail-img-thumb" onclick="window.open('${src}','_blank')"><img src="${src}" alt="图片${i+1}" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=detail-img-placeholder>图片${i+1}</div>';"></div>`).join('')
+    : '<div class="detail-img-thumb"><div class="detail-img-placeholder">🏞</div></div>';
+
   document.getElementById('modal-title').textContent = d.name;
   document.getElementById('modal-body').innerHTML = `
-    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
-      <span class="card-tag" style="font-size:12px;padding:4px 12px;">${d.town}</span>
-      <span class="card-tag" style="font-size:12px;padding:4px 12px;">${d.resourceType || ''}</span>
-      <span class="card-tag" style="font-size:12px;padding:4px 12px;">${d.landType || ''}</span>
-      <span class="latest-status ${getStatusClass(d.status)}" style="font-size:12px;padding:4px 12px;">${d.status}</span>
+    <div class="detail-tags">
+      <span class="card-tag" style="font-size:12px;padding:4px 14px;background:var(--blue-light);color:var(--blue-mid);">📍 ${d.town}</span>
+      <span class="card-tag">🏷️ ${d.resourceType || ''}</span>
+      <span class="card-tag">📐 ${d.landType || ''}</span>
+      <span class="latest-status ${getStatusClass(d.status)}" style="font-size:12px;padding:4px 14px;">${d.status}</span>
+      ${imgs.length > 0 ? `<span class="card-tag" style="color:var(--blue-mid);">🖼️ ${imgs.length}/3张</span>` : ''}
     </div>
+
+    <!-- 图片展示 -->
+    <div class="detail-section-title">📸 地块图片 ${imgs.length > 0 ? `(${imgs.length}/3)` : ''}</div>
+    <div class="detail-images">${imgHtml}</div>
+
+    <!-- 基本信息 -->
+    <div class="detail-section-title">📋 基本信息</div>
     <div class="detail-grid">
-      <div class="detail-field">
-        <div class="label">面积（亩）</div>
-        <div class="value" style="color:var(--accent);font-size:18px;font-weight:700;">${d.area || 0} 亩</div>
+      <div class="detail-field highlight">
+        <div class="label" style="color:var(--blue-mid);">面积（亩）</div>
+        <div class="value" style="color:var(--blue-mid);font-size:22px;font-weight:800;">${d.area || 0} <small style="font-size:13px;color:var(--text-sub);">亩</small></div>
       </div>
       <div class="detail-field">
         <div class="label">预计投资额</div>
@@ -1383,38 +1679,21 @@ function openDetail(id) {
         <div class="label">资源类型</div>
         <div class="value">${d.resourceType || '-'}</div>
       </div>
-      ${d.address ? `
-      <div class="detail-field">
-        <div class="label">具体地址</div>
-        <div class="value" style="color:var(--text-secondary);font-weight:400;">${d.address}</div>
-      </div>` : ''}
-      ${d.ownership ? `
-      <div class="detail-field">
-        <div class="label">地块权属</div>
-        <div class="value" style="color:var(--text-secondary);font-weight:400;">${d.ownership}</div>
-      </div>` : ''}
-      ${d.investDir ? `
-      <div class="detail-field full">
-        <div class="label">招商需求</div>
-        <div class="value">${d.investDir.replace(/\n/g, '<br>')}</div>
-      </div>` : ''}
-      ${d.remark ? `
-      <div class="detail-field full">
-        <div class="label">地块概况简介</div>
-        <div class="value" style="color:var(--text-secondary);font-weight:400;line-height:1.8;">${d.remark.replace(/\n/g, '<br>')}</div>
-      </div>` : ''}
-      ${d.contact ? `
-      <div class="detail-field full" style="background:var(--accent-light);">
-        <div class="label" style="color:var(--accent);">联系方式</div>
-        <div class="contact-card" style="margin-top:8px;background:transparent;padding:0;">
-          <div class="contact-avatar">${(d.contact || '?')[0]}</div>
-          <div class="contact-info">
-            <div class="name">${d.contact}</div>
-            ${d.phone ? `<div class="phone">📞 ${d.phone}</div>` : ''}
-          </div>
-        </div>
-      </div>` : ''}
+      ${d.address ? `<div class="detail-field"><div class="label">具体地址</div><div class="value" style="font-size:13px;color:var(--text-sub);">${d.address}</div></div>` : ''}
+      ${d.ownership ? `<div class="detail-field"><div class="label">地块权属</div><div class="value">${d.ownership}</div></div>` : ''}
+      ${d.investDir ? `<div class="detail-field full"><div class="label">招商需求</div><div class="value" style="line-height:1.7;">${d.investDir.replace(/\n/g, '<br>')}</div></div>` : ''}
+      ${d.remark ? `<div class="detail-field full"><div class="label">地块概况</div><div class="value" style="color:var(--text-sub);line-height:1.8;font-weight:400;">${d.remark.replace(/\n/g, '<br>')}</div></div>` : ''}
     </div>
+
+    ${d.contact ? `
+    <div class="detail-section-title">👤 联系方式</div>
+    <div class="contact-card">
+      <div class="contact-avatar">${(d.contact || '?')[0]}</div>
+      <div class="contact-info">
+        <div class="name">${d.contact}</div>
+        ${d.phone ? `<div class="phone" onclick="location.href='tel:${d.phone}'">📞 ${d.phone}</div>` : ''}
+      </div>
+    </div>` : ''}
   `;
   document.getElementById('modal-overlay').classList.add('show');
 }
@@ -1426,7 +1705,7 @@ function closeModal(e) {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 function copyLink() {
-  navigator.clipboard.writeText(window.location.href).then(() => showToast('链接已复制'));
+  navigator.clipboard.writeText(window.location.href).then(() => showToast('链接已复制到剪贴板', 'success'));
 }
 
 // ===== 页面切换 =====
@@ -1436,17 +1715,57 @@ function switchPage(name, el) {
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
   window.scrollTo(0, 0);
+  closeMobileMenu();
+  // 重新计算分页
+  if (name === 'search') {
+    pageSize = getPageSize();
+    renderResult();
+  }
 }
 
 function switchAdminTab(name, el) {
   document.querySelectorAll('.admin-page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('admin-' + name).classList.add('active');
-  el.classList.add('active');
+  if (el) el.classList.add('active');
   if (name === 'list') renderAdminList();
 }
 
-// ===== 管理后台 =====
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').style.display = 'none';
+}
+
+// ===== 图片上传（URL方式）=====
+const formImages = ['', '', '']; // 最多3张
+
+function updateImgFromUrl(slot, url) {
+  formImages[slot] = url.trim();
+  renderImgPreviews();
+}
+
+function removeImg(slot) {
+  formImages[slot] = '';
+  document.getElementById('img-url-' + slot).value = '';
+  renderImgPreviews();
+}
+
+function renderImgPreviews() {
+  for (let i = 0; i < 3; i++) {
+    const slot = document.getElementById('img-slot-' + i);
+    const url = formImages[i];
+    if (url) {
+      slot.innerHTML = `<img src="${url}" alt="图片${i+1}" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=detail-img-placeholder style=color:var(--red);>加载失败</div><input class=img-url-input id=img-url-${i} type=text placeholder='粘贴图片URL' onchange=updateImgFromUrl(${i},this.value)><button class=img-remove onclick=removeImg(${i})>✕</button>'"><input class=img-url-input id=img-url-${i} type=text value="${url}" placeholder='粘贴图片URL' onchange="updateImgFromUrl(${i},this.value)"><button class=img-remove onclick="removeImg(${i})">✕</button>`;
+    } else {
+      slot.innerHTML = `<div class="detail-img-placeholder">🏞</div><input class="img-url-input" id="img-url-${i}" type="text" placeholder="粘贴图片URL" onchange="updateImgFromUrl(${i},this.value)"><button class="img-remove" onclick="removeImg(${i})">✕</button>`;
+    }
+  }
+}
+
+// ===== 表单提交 =====
 function submitForm() {
   const name = document.getElementById('f-name').value.trim();
   const town = document.getElementById('f-town').value;
@@ -1455,81 +1774,244 @@ function submitForm() {
   const resourceType = document.getElementById('f-resource-type').value;
 
   if (!name || !town || !area || !landType || !resourceType) {
-    showToast('请填写必填项（*标记）');
+    showToast('请填写必填项（*标记）', 'error');
     return;
   }
 
-  const newItem = {
-    id: Date.now(),
-    name, town,
-    area: parseFloat(area),
-    landType, resourceType,
-    address: '',
-    ownership: '',
-    investDir: document.getElementById('f-invest-dir').value.trim(),
-    investAmount: parseFloat(document.getElementById('f-invest-amount').value) || 0,
-    status: document.getElementById('f-status').value,
-    contact: document.getElementById('f-contact').value.trim() || '待补充',
-    phone: document.getElementById('f-phone').value.trim() || '',
-    remark: document.getElementById('f-remark').value.trim(),
-    extra: '',
-  };
+  const images = formImages.filter(Boolean);
 
-  LAND_DATA.unshift(newItem);
+  if (editingId) {
+    // 编辑模式
+    const idx = LAND_DATA.findIndex(d => d.id === editingId);
+    if (idx > -1) {
+      LAND_DATA[idx] = {
+        ...LAND_DATA[idx],
+        name,
+        town,
+        area: parseFloat(area),
+        landType,
+        resourceType,
+        address: document.getElementById('f-address').value.trim(),
+        ownership: document.getElementById('f-ownership').value.trim(),
+        investDir: document.getElementById('f-invest-dir').value.trim(),
+        investAmount: parseFloat(document.getElementById('f-invest-amount').value) || 0,
+        status: document.getElementById('f-status').value,
+        contact: document.getElementById('f-contact').value.trim() || '',
+        phone: document.getElementById('f-phone').value.trim() || '',
+        remark: document.getElementById('f-remark').value.trim(),
+        images,
+      };
+      showToast('地块信息已更新！', 'success');
+    }
+    editingId = null;
+    cancelEdit();
+  } else {
+    // 新增模式
+    const newItem = {
+      id: Date.now(),
+      name, town,
+      area: parseFloat(area),
+      landType, resourceType,
+      address: document.getElementById('f-address').value.trim(),
+      ownership: document.getElementById('f-ownership').value.trim(),
+      investDir: document.getElementById('f-invest-dir').value.trim(),
+      investAmount: parseFloat(document.getElementById('f-invest-amount').value) || 0,
+      status: document.getElementById('f-status').value,
+      contact: document.getElementById('f-contact').value.trim() || '',
+      phone: document.getElementById('f-phone').value.trim() || '',
+      remark: document.getElementById('f-remark').value.trim(),
+      extra: '',
+      images,
+    };
+    LAND_DATA.unshift(newItem);
+    showToast('地块录入成功！', 'success');
+  }
+
   filteredData = [...LAND_DATA];
-  resetForm();
   populateStatGrid();
   handleSearch();
   renderAdminList();
-  showToast('地块录入成功！');
+  renderLatestList();
 }
 
 function resetForm() {
-  ['f-name','f-area','f-invest-dir','f-invest-amount','f-contact','f-phone','f-remark'].forEach(id => {
+  ['f-name','f-area','f-invest-dir','f-invest-amount','f-address','f-ownership','f-contact','f-phone','f-remark'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
-  ['f-town','f-land-type','f-resource-type','f-status'].forEach(id => {
+  ['f-town','f-land-type','f-resource-type'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.value = id === 'f-status' ? '招募中' : '';
+    if (el) el.value = '';
   });
+  document.getElementById('f-status').value = '招募中';
+  formImages.fill('');
+  renderImgPreviews();
 }
 
+// ===== 编辑地块 =====
+function editItem(id) {
+  const d = LAND_DATA.find(x => x.id === id);
+  if (!d) return;
+  editingId = id;
+
+  document.getElementById('form-title').textContent = '✏️ 编辑地块信息';
+  document.getElementById('form-submit-btn').textContent = '✅ 保存修改';
+  document.getElementById('cancel-edit-btn').style.display = '';
+  document.getElementById('f-edit-id').value = id;
+
+  document.getElementById('f-name').value = d.name || '';
+  document.getElementById('f-town').value = d.town || '';
+  document.getElementById('f-area').value = d.area || '';
+  document.getElementById('f-land-type').value = d.landType || '';
+  document.getElementById('f-resource-type').value = d.resourceType || '';
+  document.getElementById('f-status').value = d.status || '招募中';
+  document.getElementById('f-invest-dir').value = d.investDir || '';
+  document.getElementById('f-invest-amount').value = d.investAmount || '';
+  document.getElementById('f-address').value = d.address || '';
+  document.getElementById('f-ownership').value = d.ownership || '';
+  document.getElementById('f-contact').value = d.contact || '';
+  document.getElementById('f-phone').value = d.phone || '';
+  document.getElementById('f-remark').value = d.remark || '';
+
+  // 加载图片
+  formImages.fill('');
+  const imgs = d.images || [];
+  for (let i = 0; i < Math.min(imgs.length, 3); i++) {
+    formImages[i] = imgs[i] || '';
+  }
+  renderImgPreviews();
+
+  // 切换到表单tab
+  switchAdminTab('add', document.querySelectorAll('.admin-tab')[0]);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('正在编辑：' + d.name, 'success');
+}
+
+function cancelEdit() {
+  editingId = null;
+  document.getElementById('form-title').textContent = '📝 地块信息录入';
+  document.getElementById('form-submit-btn').textContent = '✅ 提交录入';
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+  resetForm();
+}
+
+// ===== 数据管理列表 =====
+// 管理列表也支持分页
+const adminPageSize = 20;
+
 function renderAdminList() {
-  document.getElementById('admin-list-content').innerHTML = LAND_DATA.map((d, i) => `
-    <div class="data-list-item">
-      <div class="idx">${String(i+1).padStart(2,'0')}</div>
+  document.getElementById('admin-total-count').textContent = LAND_DATA.length;
+  adminPage = 1;
+  renderAdminListPage();
+}
+
+function renderAdminListPage() {
+  const total = LAND_DATA.length;
+  const totalPages = Math.max(1, Math.ceil(total / adminPageSize));
+  if (adminPage > totalPages) adminPage = totalPages;
+  const start = (adminPage - 1) * adminPageSize;
+  const pageData = LAND_DATA.slice(start, start + adminPageSize);
+
+  document.getElementById('admin-list-content').innerHTML = pageData.map((d, i) => {
+    const imgs = (d.images || []).filter(Boolean);
+    return `<div class="data-list-item">
+      <div class="idx">${String(start + i + 1).padStart(2,'0')}</div>
       <div class="info">
         <div class="name">${d.name}</div>
-        <div class="meta">${d.town} · ${d.area || 0}亩 · ${d.resourceType || ''} · ${d.status}</div>
+        <div class="meta">
+          <span>📍${d.town}</span>
+          <span>📐${d.area || 0}亩</span>
+          <span>🏷️${d.resourceType || ''}</span>
+          <span class="latest-status ${getStatusClass(d.status)}" style="font-size:10px;padding:1px 6px;">${d.status}</span>
+          ${imgs.length > 0 ? `<span style="color:var(--blue-mid);">🖼️×${imgs.length}</span>` : ''}
+        </div>
       </div>
       <div class="actions">
-        <button class="action-btn" onclick="openDetail(${d.id})">查看</button>
-        <button class="action-btn" onclick="deleteItem(${d.id})" style="color:var(--red);">删除</button>
+        <button class="action-btn" onclick="openDetail(${d.id})">👁️ 查看</button>
+        <button class="action-btn edit-btn" onclick="editItem(${d.id})">✏️ 编辑</button>
+        <button class="action-btn danger" onclick="deleteItem(${d.id})">🗑️ 删除</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
+
+  renderPagination(totalPages, 'admin-pagination', 'adminPage', 'goAdminPage');
+  document.getElementById('admin-pagination').dataset.page = adminPage;
 }
 
 function deleteItem(id) {
-  if (!confirm('确定删除该地块信息？')) return;
-  const idx = LAND_DATA.findIndex(d => d.id === id);
+  const d = LAND_DATA.find(x => x.id === id);
+  if (!confirm('确定删除「' + (d ? d.name : '') + '」？此操作不可恢复。')) return;
+  const idx = LAND_DATA.findIndex(x => x.id === id);
   if (idx > -1) LAND_DATA.splice(idx, 1);
   filteredData = [...LAND_DATA];
   populateStatGrid();
   handleSearch();
   renderAdminList();
-  showToast('删除成功');
+  renderLatestList();
+  showToast('已删除', 'success');
+}
+
+// ===== 导出数据 =====
+function exportData() {
+  const json = JSON.stringify(LAND_DATA, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '龙门县招商引资地块数据_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('数据已导出（JSON格式）', 'success');
 }
 
 function downloadTemplate() {
-  showToast('模板下载功能（正式版可用）');
+  const template = {
+    "_说明": "请在下方填写数据，每行一个地块",
+    "示例": {
+      name: "龙田镇李屋村农业产业园（示例）",
+      town: "龙田镇",
+      area: 500,
+      landType: "耕地",
+      resourceType: "农文旅",
+      status: "招募中",
+      investDir: "智慧农业、农旅融合",
+      investAmount: 3000,
+      address: "龙门县龙田镇李屋村",
+      ownership: "村集体所有",
+      contact: "张三",
+      phone: "13800138000",
+      remark: "交通便利，水电设施完善",
+      images: ["https://example.com/image1.jpg"]
+    }
+  };
+  const json = JSON.stringify([template], null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '龙门县招商引资地块_导入模板.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('模板已下载（请参考格式填写）', 'success');
 }
 
 function handleImport(el) {
   const file = el.files[0];
   if (!file) return;
-  showToast(`已选择文件：${file.name}（正式版将自动解析入库）`);
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (Array.isArray(data)) {
+        showToast('检测到 ' + data.length + ' 条数据（正式版将自动解析入库）', 'success');
+      } else {
+        showToast('文件格式不正确', 'error');
+      }
+    } catch(err) {
+      showToast('文件解析失败，请检查JSON格式', 'error');
+    }
+  };
+  reader.readAsText(file);
 }
 
 // ===== 工具函数 =====
@@ -1540,14 +2022,15 @@ function getStatusClass(status) {
   return 'status-other';
 }
 
-function showToast(msg) {
+function showToast(msg, type) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  t.className = 'toast show';
+  if (type) t.classList.add(type);
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ===== PWA Service Worker 注册 =====
+// ===== PWA Service Worker =====
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(console.error);
 }
