@@ -1,11 +1,11 @@
 {
   "name": "龙门县招商引资地块平台",
   "short_name": "龙门地块",
-  "description": "龙门县农业农村招商引资地块信息查询平台",
+  "description": "龙门县农业农村招商引资地块信息查询平台，支持快速查询、地块管理",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#f0f4f8",
+  "theme_color": "#1e3a8a",
   "orientation": "portrait-primary",
   "icons": [
     {
