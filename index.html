@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="manifest" href="manifest.json">
+  <title>龙门县农业农村招商引资地块信息平台 · 真实数据版（71条）</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+</head>
+<body>
+  <style>
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f6fa;
+      --bg-card: #ffffff;
+      --text-primary: #1a1a2e;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+      --border: #e0e0e0;
+      --accent: #2563eb;
+      --accent-light: #dbeafe;
+      --green: #16a34a;
+      --green-light: #dcfce7;
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      --red: #dc2626;
+      --red-light: #fee2e2;
+      --purple: #7c3aed;
+      --purple-light: #ede9fe;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* ===== 顶部导航 ===== */
+    .navbar {
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-brand {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: 16px 0;
+      margin-right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .nav-brand .dot {
+      width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 0;
+    }
+    .nav-tab {
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-tab:hover { color: var(--accent); }
+    .nav-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 500;
+    }
+    .nav-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .badge-new {
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    /* ===== 主容器 ===== */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* ===== 页面 ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ===== 总览大屏 ===== */
+    .overview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .overview-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .overview-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .stat-info h3 {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    .stat-trend {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+    .trend-up { background: var(--green-light); color: var(--green); }
+    .trend-new { background: var(--accent-light); color: var(--accent); }
+
+    /* 图表网格 */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .chart-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .chart-card.full-width {
+      grid-column: span 3;
+    }
+    .chart-card.half-width {
+      grid-column: span 2;
+    }
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chart-wrap { position: relative; height: 220px; }
+    .chart-wrap-sm { position: relative; height: 200px; }
+
+    /* 最新地块列表 */
+    .latest-list {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .latest-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .latest-header h3 { font-size: 14px; font-weight: 600; }
+    .latest-item {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .latest-item:last-child { border-bottom: none; }
+    .latest-item:hover { background: var(--bg-secondary); }
+    .latest-num {
+      width: 28px; height: 28px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .latest-name { font-size: 14px; font-weight: 500; flex: 1; }
+    .latest-town { font-size: 12px; color: var(--text-secondary); }
+    .latest-area { font-size: 13px; font-weight: 600; color: var(--accent); white-space: nowrap; }
+    .latest-status {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ===== 搜索页 ===== */
+    .search-box {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .search-input-wrap {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-btn {
+      padding: 10px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .search-btn:hover { background: #1d4ed8; }
+    .search-btn.secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .search-btn.secondary:hover { background: var(--border); }
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-right: 4px;
+    }
+    .filter-select {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      outline: none;
+      cursor: pointer;
+      min-width: 110px;
+    }
+    .filter-select:focus { border-color: var(--accent); }
+    .filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-tag:hover, .filter-tag.active {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-tag .count {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 10px;
+      padding: 0 5px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* 搜索结果 */
+    .result-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .result-count {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .result-count strong { color: var(--text-primary); }
+    .view-toggle {
+      display: flex;
+      gap: 4px;
+    }
+    .view-btn {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-primary);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+    .view-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* 表格视图 */
+    .data-table {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      width: 100%;
+      overflow-x: auto;
+    }
+    .data-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: var(--bg-secondary);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 12px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #f8fafc; cursor: pointer; }
+    .data-table .col-name {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    /* 卡片视图 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .land-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .land-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .card-img {
+      height: 140px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 40px;
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 14px; }
+    .card-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .card-tag {
+      padding: 2px 8px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .card-meta .area { font-size: 15px; font-weight: 700; color: var(--accent); }
+    .card-meta .status { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+
+    /* ===== 详情弹窗 ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal {
+      background: var(--bg-primary);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 720px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      background: var(--bg-primary);
+      z-index: 1;
+    }
+    .modal-title { font-size: 17px; font-weight: 600; }
+    .modal-close {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      cursor: pointer;
+      font-size: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+    }
+    .modal-close:hover { background: var(--border); }
+    .modal-body { padding: 24px; }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .detail-field {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .detail-field .label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .detail-field .value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .detail-field.full { grid-column: span 2; }
+    .detail-section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .contact-avatar {
+      width: 44px; height: 44px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      color: var(--accent);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .contact-info .name { font-size: 14px; font-weight: 500; }
+    .contact-info .phone { font-size: 13px; color: var(--accent); margin-top: 2px; }
+    .contact-info .remark { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .btn {
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-outline { background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--bg-secondary); }
+
+    /* ===== 管理后台 ===== */
+    .admin-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .admin-tab {
+      padding: 10px 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .admin-tab:hover { color: var(--accent); }
+    .admin-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      font-weight: 500;
+    }
+    .admin-page { display: none; }
+    .admin-page.active { display: block; }
+
+    .form-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      max-width: 700px;
+    }
+    .form-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-row.single { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .form-group label .required { color: var(--red); }
+    .form-input, .form-select, .form-textarea {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 13px;
+      outline: none;
+      transition: border 0.2s;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent);
+    }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-secondary);
+    }
+    .upload-area:hover { border-color: var(--accent); background: var(--accent-light); }
+    .upload-icon { font-size: 28px; margin-bottom: 8px; }
+    .upload-text { font-size: 13px; }
+    .upload-text span { color: var(--accent); }
+    .upload-hint { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* 导入提示 */
+    .import-tip {
+      background: var(--accent-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: var(--accent);
+    }
+    .import-tip strong { font-weight: 600; }
+    .import-tip ul { margin-top: 8px; padding-left: 18px; color: var(--text-secondary); }
+    .import-tip li { margin-bottom: 4px; }
+
+    /* 数据列表 */
+    .data-list-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .data-list-item .idx {
+      width: 28px; height: 28px;
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+    .data-list-item .info { flex: 1; min-width: 0; }
+    .data-list-item .name { font-size: 14px; font-weight: 500; }
+    .data-list-item .meta { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .data-list-item .actions { display: flex; gap: 6px; }
+    .data-list-item .action-btn {
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      font-size: 11px;
+      cursor: pointer;
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+      transition: all 0.15s;
+    }
+    .data-list-item .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .data-list-item .action-btn.danger:hover { border-color: var(--red); color: var(--red); }
+
+    /* 状态标签 */
+    .status-recruit { background: var(--green-light); color: var(--green); }
+    .status-negotiate { background: var(--amber-light); color: var(--amber); }
+    .status-signed { background: var(--purple-light); color: var(--purple); }
+    .status-other { background: var(--bg-secondary); color: var(--text-secondary); }
+
+    /* 分页 */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 24px;
+    }
+    .page-btn {
+      width: 34px; height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--bg-primary);
+      cursor: pointer;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+      color: var(--text-secondary);
+    }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 14px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text-primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 9999;
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+    .toast.show { display: block; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 镇街分布列表 */
+    .town-stat-list { display: flex; flex-direction: column; gap: 10px; }
+    .town-stat-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .town-stat-name { width: 60px; color: var(--text-secondary); flex-shrink: 0; }
+    .town-stat-bar-wrap { flex: 1; height: 20px; background: var(--bg-secondary); border-radius: 10px; overflow: hidden; }
+    .town-stat-bar { height: 100%; background: var(--accent); border-radius: 10px; transition: width 0.5s ease; }
+    .town-stat-num { width: 24px; text-align: right; font-weight: 600; font-size: 12px; color: var(--accent); }
+
+    /* 投资方向饼图 */
+    .direction-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .direction-legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-secondary); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .chart-grid { grid-template-columns: 1fr; }
+      .chart-card.full-width, .chart-card.half-width { grid-column: span 1; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-tabs { display: none; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="dot"></div>
+    龙门县农业农村招商引资地块信息平台
+    <span style="font-size:11px;font-weight:400;color:var(--green);background:var(--green-light);padding:2px 8px;border-radius:10px;margin-left:8px;">共71条真实数据</span>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="switchPage('overview', this)">综合总览</div>
+    <div class="nav-tab" onclick="switchPage('search', this)">快速查询 <span class="badge-new">NEW</span></div>
+    <div class="nav-tab" onclick="switchPage('admin', this)">管理后台</div>
+  </div>
+  <div class="nav-right">
+    <span style="font-size:12px;color:var(--text-muted);">数据来源：龙门县农业农村局 · 2026年5月</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- ===== PAGE 1: 综合总览 ===== -->
+  <div id="page-overview" class="page active">
+    <div class="overview-header">
+      <div>
+        <div class="overview-title">综合总览</div>
+        <div class="overview-subtitle">龙门县农业农村领域招商引资地块资源真实数据 · 持续更新中</div>
+      </div>
+    </div>
+
+    <!-- 核心指标 -->
+    <div class="stat-grid" id="stat-grid"></div>
+
+    <!-- 图表区 -->
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-title">📊 各镇街地块数量分布</div>
+        <div class="chart-wrap"><canvas id="chart-town"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">🥧 资源类型占比</div>
+        <div class="chart-wrap"><canvas id="chart-resource"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">📈 招商状态分布</div>
+        <div class="chart-wrap"><canvas id="chart-status"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 最新地块 -->
+    <div class="latest-list">
+      <div class="latest-header">
+        <h3>最新录入地块</h3>
+        <a href="#" onclick="event.preventDefault(); switchPage('search', document.querySelectorAll('.nav-tab')[1]);" style="font-size:12px;color:var(--accent);text-decoration:none;">查看全部 →</a>
+      </div>
+      <div id="latest-list-content"></div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 2: 快速查询 ===== -->
+  <div id="page-search" class="page">
+    <div class="overview-header">
+      <div>
+        <div class="overview-title">快速查询</div>
+        <div class="overview-subtitle">支持镇街、资源类型、招商状态、面积等多维筛选，精准定位目标地块</div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <input class="search-input" id="search-input" type="text" placeholder="搜索地块名称、所在镇街、招商需求、资源类型..." oninput="handleSearch()">
+        <button class="search-btn secondary" onclick="clearSearch()">重置</button>
+        <button class="search-btn" onclick="handleSearch()">🔍 搜索</button>
+      </div>
+      <div class="filter-row" id="filter-row"></div>
+    </div>
+
+    <div class="result-bar">
+      <div class="result-count" id="result-count"></div>
+      <div class="view-toggle">
+        <button class="view-btn active" id="view-table-btn" onclick="setView('table')">📋 表格</button>
+        <button class="view-btn" id="view-card-btn" onclick="setView('card')">🃏 卡片</button>
+      </div>
+    </div>
+
+    <div id="result-content"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- ===== PAGE 3: 管理后台 ===== -->
+  <div id="page-admin" class="page">
+    <div class="overview-header">
+      <div>
+        <div class="overview-title">管理后台</div>
+        <div class="overview-subtitle">地块数据录入、编辑与导入管理</div>
+      </div>
+    </div>
+
+    <div class="admin-tabs">
+      <div class="admin-tab active" onclick="switchAdminTab('add', this)">📝 新增地块</div>
+      <div class="admin-tab" onclick="switchAdminTab('import', this)">📥 批量导入</div>
+      <div class="admin-tab" onclick="switchAdminTab('list', this)">📂 数据管理</div>
+    </div>
+
+    <!-- 新增地块 -->
+    <div id="admin-add" class="admin-page active">
+      <div class="import-tip">
+        <strong>💡 提示</strong>：当前为演示模式，数据仅保存在浏览器本地（刷新页面将重置）。
+        正式上线后数据将存储在云端数据库，支持多端同步。
+      </div>
+      <div class="form-card">
+        <div class="form-title">地块信息录入</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>地块名称 <span class="required">*</span></label>
+            <input class="form-input" id="f-name" type="text" placeholder="如：龙田镇李屋村农业产业园">
+          </div>
+          <div class="form-group">
+            <label>所在镇街 <span class="required">*</span></label>
+            <select class="form-select" id="f-town">
+              <option value="">请选择镇街</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>面积（亩） <span class="required">*</span></label>
+            <input class="form-input" id="f-area" type="number" placeholder="如：500">
+          </div>
+          <div class="form-group">
+            <label>土地类型 <span class="required">*</span></label>
+            <select class="form-select" id="f-land-type">
+              <option value="">请选择土地类型</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>资源类型 <span class="required">*</span></label>
+            <select class="form-select" id="f-resource-type">
+              <option value="">请选择资源类型</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>招商状态</label>
+            <select class="form-select" id="f-status">
+              <option value="招募中">招募中</option>
+              <option value="洽谈中">洽谈中</option>
+              <option value="已落地">已落地</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>建议投资方向</label>
+            <input class="form-input" id="f-invest-dir" type="text" placeholder="如：智慧农业、农旅融合">
+          </div>
+          <div class="form-group">
+            <label>预计投资额（万元）</label>
+            <input class="form-input" id="f-invest-amount" type="number" placeholder="如：3000">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>联系人</label>
+            <input class="form-input" id="f-contact" type="text" placeholder="联系人姓名">
+          </div>
+          <div class="form-group">
+            <label>联系电话</label>
+            <input class="form-input" id="f-phone" type="tel" placeholder="手机号码">
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label>备注</label>
+            <textarea class="form-textarea" id="f-remark" placeholder="补充说明，如交通条件、配套设施、优惠政策等..."></textarea>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group">
+            <label>地块图片</label>
+            <div class="upload-area" onclick="document.getElementById('f-img').click()">
+              <div class="upload-icon">📷</div>
+              <div class="upload-text">点击上传图片 或 <span>拖拽到此处</span></div>
+              <div class="upload-hint">支持 JPG、PNG，单张不超过 5MB</div>
+            </div>
+            <input type="file" id="f-img" accept="image/*" style="display:none">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="submitForm()">提交录入</button>
+          <button class="btn btn-outline" onclick="resetForm()">重置表单</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 批量导入 -->
+    <div id="admin-import" class="admin-page">
+      <div class="import-tip">
+        <strong>📥 批量导入说明</strong>
+        <ul>
+          <li>支持 <strong>.xlsx / .csv</strong> 格式，请先下载标准模板</li>
+          <li>必填列：地块名称、所在镇街、面积（亩）、土地类型、资源类型</li>
+          <li>选填列：建议投资方向、预计投资额、招商状态、联系人、联系电话、备注</li>
+          <li>建议单次导入不超过 500 条，超出请分批导入</li>
+        </ul>
+      </div>
+      <div class="form-card">
+        <div class="form-title">下载模板 &amp; 上传数据</div>
+        <div style="display:flex;gap:16px;align-items:center;margin-bottom:20px;">
+          <button class="btn btn-outline" onclick="downloadTemplate()">📄 下载标准模板 (xlsx)</button>
+          <span style="font-size:12px;color:var(--text-muted);">文件已包含所有字段说明和示例数据</span>
+        </div>
+        <div class="form-group">
+          <label>上传已填好的 Excel 文件</label>
+          <div class="upload-area" onclick="document.getElementById('f-import').click()">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">点击选择文件 或 <span>拖拽到此处</span></div>
+            <div class="upload-hint">支持 .xlsx / .csv 文件（正式版将自动解析并入库）</div>
+          </div>
+          <input type="file" id="f-import" accept=".xlsx,.csv" style="display:none" onchange="handleImport(this)">
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据管理 -->
+    <div id="admin-list" class="admin-page">
+      <div id="admin-list-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 详情弹窗 -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">地块详情</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal()">关闭</button>
+      <button class="btn btn-outline" onclick="copyLink()">复制链接</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== 真实数据（已从 data.js 加载） =====
+// 数据字段：id, name, town, address, area, landType, ownership,
+//          investDir, investAmount, status, contact, phone, remark, resourceType, extra
+
+// ===== 全局变量 =====
+let currentView = 'table';
+let currentPage = 1;
+const pageSize = 10;
+let filteredData = [];
+
+// ===== 动态提取筛选选项 =====
+const towns = [...new Set(LAND_DATA.map(d => d.town))].sort();
+const landTypes = [...new Set(LAND_DATA.map(d => d.landType).filter(Boolean))].sort();
+const resourceTypes = [...new Set(LAND_DATA.map(d => d.resourceType).filter(Boolean))].sort();
+
+// ===== 初始化 =====
+function init() {
+  filteredData = [...LAND_DATA];
+  populateFilters();
+  populateStatGrid();
+  renderCharts();
+  renderLatestList();
+  handleSearch();
+  populateFormSelects();
+  renderAdminList();
+}
+
+function populateFilters() {
+  const filterRow = document.getElementById('filter-row');
+  filterRow.innerHTML = `
+    <span class="filter-label">镇街</span>
+    <select class="filter-select" id="filter-town" onchange="handleSearch()">
+      <option value="">全部</option>${towns.map(t => `<option value="${t}">${t}</option>`).join('')}
+    </select>
+    <span class="filter-label">资源类型</span>
+    <select class="filter-select" id="filter-resource" onchange="handleSearch()">
+      <option value="">全部</option>${resourceTypes.map(r => `<option value="${r}">${r}</option>`).join('')}
+    </select>
+    <span class="filter-label">招商状态</span>
+    <select class="filter-select" id="filter-status" onchange="handleSearch()">
+      <option value="">全部</option>
+      <option value="招募中">招募中</option>
+      <option value="洽谈中">洽谈中</option>
+      <option value="已落地">已落地</option>
+    </select>
+    <span class="filter-label">面积</span>
+    <select class="filter-select" id="filter-area" onchange="handleSearch()">
+      <option value="">不限</option>
+      <option value="0-100">100亩以下</option>
+      <option value="100-300">100-300亩</option>
+      <option value="300-500">300-500亩</option>
+      <option value="500-9999">500亩以上</option>
+    </select>
+  `;
+}
+
+function populateFormSelects() {
+  document.getElementById('f-town').innerHTML = '<option value="">请选择镇街</option>' + towns.map(t => `<option value="${t}">${t}</option>`).join('');
+  document.getElementById('f-land-type').innerHTML = '<option value="">请选择土地类型</option>' + landTypes.map(l => `<option value="${l}">${l}</option>`).join('');
+  document.getElementById('f-resource-type').innerHTML = '<option value="">请选择资源类型</option>' + resourceTypes.map(r => `<option value="${r}">${r}</option>`).join('');
+}
+
+function populateStatGrid() {
+  const total = LAND_DATA.length;
+  const recruiting = LAND_DATA.filter(d => d.status === '招募中').length;
+  const negotiating = LAND_DATA.filter(d => d.status === '洽谈中').length;
+  const totalArea = Math.round(LAND_DATA.reduce((s, d) => s + (d.area || 0), 0));
+
+  const stats = [
+    { icon: '🏞️', bg: '#dbeafe', color: '#2563eb', value: total, label: '地块总数', sub: `覆盖 ${towns.length} 个镇街` },
+    { icon: '📈', bg: '#dcfce7', color: '#16a34a', value: recruiting, label: '招募中', sub: '欢迎投资洽谈' },
+    { icon: '🤝', bg: '#fef3c7', color: '#d97706', value: negotiating, label: '洽谈中', sub: '正在推进落地' },
+    { icon: '🌾', bg: '#ede9fe', color: '#7c3aed', value: totalArea.toLocaleString(), label: '总面积（亩）', sub: '可利用土地资源' },
+  ];
+
+  document.getElementById('stat-grid').innerHTML = stats.map(s => `
+    <div class="stat-card">
+      <div class="stat-icon" style="background:${s.bg};color:${s.color}">${s.icon}</div>
+      <div class="stat-info">
+        <h3 style="color:${s.color}">${s.value}</h3>
+        <p>${s.label}</p>
+        <span class="stat-trend trend-new">${s.sub}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== 图表 =====
+function renderCharts() {
+  // 镇街分布（动态从真实数据提取）
+  const townCount = {};
+  towns.forEach(t => townCount[t] = LAND_DATA.filter(d => d.town === t).length);
+  new Chart(document.getElementById('chart-town'), {
+    type: 'bar',
+    data: {
+      labels: towns,
+      datasets: [{ label: '地块数量', data: towns.map(t => townCount[t] || 0), backgroundColor: 'rgba(37,99,235,0.7)', borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+    }
+  });
+
+  // 资源类型
+  const resourceCount = {};
+  resourceTypes.forEach(r => resourceCount[r] = LAND_DATA.filter(d => d.resourceType === r).length);
+  const colors = ['#2563eb','#16a34a','#d97706','#7c3aed','#dc2626','#0891b2','#db2777','#65a30d'];
+  new Chart(document.getElementById('chart-resource'), {
+    type: 'doughnut',
+    data: {
+      labels: resourceTypes,
+      datasets: [{ data: resourceTypes.map(r => resourceCount[r] || 0), backgroundColor: colors }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+    }
+  });
+
+  // 招商状态
+  const statusCount = { '招募中': LAND_DATA.filter(d => d.status === '招募中').length, '洽谈中': LAND_DATA.filter(d => d.status === '洽谈中').length, '已落地': LAND_DATA.filter(d => d.status === '已落地').length };
+  new Chart(document.getElementById('chart-status'), {
+    type: 'bar',
+    data: {
+      labels: ['招募中', '洽谈中', '已落地'],
+      datasets: [{ label: '地块数量', data: [statusCount['招募中'], statusCount['洽谈中'], statusCount['已落地']], backgroundColor: ['rgba(22,163,74,0.7)', 'rgba(217,119,6,0.7)', 'rgba(124,58,237,0.7)'], borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+    }
+  });
+}
+
+// ===== 最新地块列表 =====
+function renderLatestList() {
+  const list = LAND_DATA.slice(0, 8);
+  document.getElementById('latest-list-content').innerHTML = list.map((d, i) => `
+    <div class="latest-item" onclick="openDetail(${d.id})">
+      <div class="latest-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="latest-name">${d.name}</div>
+      <div class="latest-town">${d.town}</div>
+      <div class="latest-area">${d.area}亩</div>
+      <span class="latest-status ${getStatusClass(d.status)}">${d.status}</span>
+    </div>
+  `).join('');
+}
+
+// ===== 搜索与筛选 =====
+function handleSearch() {
+  const keyword = document.getElementById('search-input')?.value?.toLowerCase() || '';
+  const town = document.getElementById('filter-town')?.value || '';
+  const resource = document.getElementById('filter-resource')?.value || '';
+  const status = document.getElementById('filter-status')?.value || '';
+  const areaRange = document.getElementById('filter-area')?.value || '';
+
+  filteredData = LAND_DATA.filter(d => {
+    const matchKeyword = !keyword || d.name.toLowerCase().includes(keyword) || (d.town || '').includes(keyword) || (d.address || '').includes(keyword) || (d.investDir || '').includes(keyword) || (d.remark || '').includes(keyword) || (d.landType || '').includes(keyword);
+    const matchTown = !town || d.town === town;
+    const matchResource = !resource || d.resourceType === resource;
+    const matchStatus = !status || d.status === status;
+    let matchArea = true;
+    if (areaRange) {
+      const [min, max] = areaRange.split('-').map(Number);
+      matchArea = (d.area || 0) >= min && (d.area || 0) <= max;
+    }
+    return matchKeyword && matchTown && matchResource && matchStatus && matchArea;
+  });
+
+  currentPage = 1;
+  renderResult();
+}
+
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  const selects = document.querySelectorAll('#filter-row select');
+  selects.forEach(s => s.value = '');
+  handleSearch();
+}
+
+function renderResult() {
+  const total = filteredData.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * pageSize;
+  const pageData = filteredData.slice(start, start + pageSize);
+
+  document.getElementById('result-count').innerHTML = `共找到 <strong>${total}</strong> 个地块`;
+
+  if (currentView === 'table') {
+    renderTable(pageData);
+  } else {
+    renderCard(pageData);
+  }
+
+  renderPagination(totalPages);
+}
+
+function renderTable(data) {
+  if (!data.length) {
+    document.getElementById('result-content').innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>未找到匹配的地块，请调整筛选条件</p></div>`;
+    return;
+  }
+  document.getElementById('result-content').innerHTML = `
+    <div class="data-table">
+      <table>
+        <thead>
+          <tr>
+            <th>序号</th><th>地块名称</th><th>镇街</th><th>面积（亩）</th><th>土地类型</th><th>资源类型</th><th>招商状态</th><th>投资额（万元）</th><th>联系人</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map((d, i) => `
+            <tr onclick="openDetail(${d.id})">
+              <td>${String(LAND_DATA.indexOf(d)+1).padStart(2,'0')}</td>
+              <td class="col-name" title="${d.name}">${d.name.length > 18 ? d.name.slice(0,18)+'…' : d.name}</td>
+              <td>${d.town}</td>
+              <td><strong>${d.area || '-'}</strong></td>
+              <td>${d.landType || '-'}</td>
+              <td>${d.resourceType || '-'}</td>
+              <td><span class="latest-status ${getStatusClass(d.status)}">${d.status}</span></td>
+              <td>${d.investAmount > 0 ? d.investAmount.toLocaleString() : '-'}</td>
+              <td>${d.contact || '-'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderCard(data) {
+  if (!data.length) {
+    document.getElementById('result-content').innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>未找到匹配的地块，请调整筛选条件</p></div>`;
+    return;
+  }
+  document.getElementById('result-content').innerHTML = `
+    <div class="card-grid">
+      ${data.map(d => `
+        <div class="land-card" onclick="openDetail(${d.id})">
+          <div class="card-img" style="background:linear-gradient(135deg,var(--accent-light) 0%,var(--purple-light) 100%)">
+            <span style="font-size:40px;opacity:0.5">🏡</span>
+          </div>
+          <div class="card-body">
+            <div class="card-name">${d.name}</div>
+            <div class="card-tags">
+              <span class="card-tag">${d.town}</span>
+              <span class="card-tag">${d.resourceType || ''}</span>
+              <span class="card-tag">${d.landType || ''}</span>
+            </div>
+            <div class="card-meta">
+              <span>${(d.investDir || '').substring(0, 20)}${(d.investDir || '').length > 20 ? '…' : ''}</span>
+              <span class="area">${d.area || 0}亩</span>
+              <span class="status ${getStatusClass(d.status)}">${d.status}</span>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderPagination(totalPages) {
+  const pagination = document.getElementById('pagination');
+  if (totalPages <= 1) { pagination.innerHTML = ''; return; }
+  let html = '';
+  if (currentPage > 1) html += `<button class="page-btn" onclick="goPage(${currentPage-1})">‹</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    if (totalPages > 7 && Math.abs(i-currentPage) > 2 && i !== 1 && i !== totalPages) {
+      if (i === 2 || i === totalPages-1) html += '<span style="color:var(--text-muted);padding:0 4px;">...</span>';
+      continue;
+    }
+    html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (currentPage < totalPages) html += `<button class="page-btn" onclick="goPage(${currentPage+1})">›</button>`;
+  pagination.innerHTML = html;
+}
+
+function goPage(p) { currentPage = p; renderResult(); }
+
+function setView(view) {
+  currentView = view;
+  document.getElementById('view-table-btn').classList.toggle('active', view === 'table');
+  document.getElementById('view-card-btn').classList.toggle('active', view === 'card');
+  renderResult();
+}
+
+// ===== 详情弹窗 =====
+function openDetail(id) {
+  const d = LAND_DATA.find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('modal-title').textContent = d.name;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <span class="card-tag" style="font-size:12px;padding:4px 12px;">${d.town}</span>
+      <span class="card-tag" style="font-size:12px;padding:4px 12px;">${d.resourceType || ''}</span>
+      <span class="card-tag" style="font-size:12px;padding:4px 12px;">${d.landType || ''}</span>
+      <span class="latest-status ${getStatusClass(d.status)}" style="font-size:12px;padding:4px 12px;">${d.status}</span>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-field">
+        <div class="label">面积（亩）</div>
+        <div class="value" style="color:var(--accent);font-size:18px;font-weight:700;">${d.area || 0} 亩</div>
+      </div>
+      <div class="detail-field">
+        <div class="label">预计投资额</div>
+        <div class="value">${d.investAmount > 0 ? d.investAmount.toLocaleString() + ' 万元' : '待定'}</div>
+      </div>
+      <div class="detail-field">
+        <div class="label">土地类型</div>
+        <div class="value">${d.landType || '-'}</div>
+      </div>
+      <div class="detail-field">
+        <div class="label">资源类型</div>
+        <div class="value">${d.resourceType || '-'}</div>
+      </div>
+      ${d.address ? `
+      <div class="detail-field">
+        <div class="label">具体地址</div>
+        <div class="value" style="color:var(--text-secondary);font-weight:400;">${d.address}</div>
+      </div>` : ''}
+      ${d.ownership ? `
+      <div class="detail-field">
+        <div class="label">地块权属</div>
+        <div class="value" style="color:var(--text-secondary);font-weight:400;">${d.ownership}</div>
+      </div>` : ''}
+      ${d.investDir ? `
+      <div class="detail-field full">
+        <div class="label">招商需求</div>
+        <div class="value">${d.investDir.replace(/\n/g, '<br>')}</div>
+      </div>` : ''}
+      ${d.remark ? `
+      <div class="detail-field full">
+        <div class="label">地块概况简介</div>
+        <div class="value" style="color:var(--text-secondary);font-weight:400;line-height:1.8;">${d.remark.replace(/\n/g, '<br>')}</div>
+      </div>` : ''}
+      ${d.contact ? `
+      <div class="detail-field full" style="background:var(--accent-light);">
+        <div class="label" style="color:var(--accent);">联系方式</div>
+        <div class="contact-card" style="margin-top:8px;background:transparent;padding:0;">
+          <div class="contact-avatar">${(d.contact || '?')[0]}</div>
+          <div class="contact-info">
+            <div class="name">${d.contact}</div>
+            ${d.phone ? `<div class="phone">📞 ${d.phone}</div>` : ''}
+          </div>
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget) return;
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => showToast('链接已复制'));
+}
+
+// ===== 页面切换 =====
+function switchPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function switchAdminTab(name, el) {
+  document.querySelectorAll('.admin-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('admin-' + name).classList.add('active');
+  el.classList.add('active');
+  if (name === 'list') renderAdminList();
+}
+
+// ===== 管理后台 =====
+function submitForm() {
+  const name = document.getElementById('f-name').value.trim();
+  const town = document.getElementById('f-town').value;
+  const area = document.getElementById('f-area').value;
+  const landType = document.getElementById('f-land-type').value;
+  const resourceType = document.getElementById('f-resource-type').value;
+
+  if (!name || !town || !area || !landType || !resourceType) {
+    showToast('请填写必填项（*标记）');
+    return;
+  }
+
+  const newItem = {
+    id: Date.now(),
+    name, town,
+    area: parseFloat(area),
+    landType, resourceType,
+    address: '',
+    ownership: '',
+    investDir: document.getElementById('f-invest-dir').value.trim(),
+    investAmount: parseFloat(document.getElementById('f-invest-amount').value) || 0,
+    status: document.getElementById('f-status').value,
+    contact: document.getElementById('f-contact').value.trim() || '待补充',
+    phone: document.getElementById('f-phone').value.trim() || '',
+    remark: document.getElementById('f-remark').value.trim(),
+    extra: '',
+  };
+
+  LAND_DATA.unshift(newItem);
+  filteredData = [...LAND_DATA];
+  resetForm();
+  populateStatGrid();
+  handleSearch();
+  renderAdminList();
+  showToast('地块录入成功！');
+}
+
+function resetForm() {
+  ['f-name','f-area','f-invest-dir','f-invest-amount','f-contact','f-phone','f-remark'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['f-town','f-land-type','f-resource-type','f-status'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = id === 'f-status' ? '招募中' : '';
+  });
+}
+
+function renderAdminList() {
+  document.getElementById('admin-list-content').innerHTML = LAND_DATA.map((d, i) => `
+    <div class="data-list-item">
+      <div class="idx">${String(i+1).padStart(2,'0')}</div>
+      <div class="info">
+        <div class="name">${d.name}</div>
+        <div class="meta">${d.town} · ${d.area || 0}亩 · ${d.resourceType || ''} · ${d.status}</div>
+      </div>
+      <div class="actions">
+        <button class="action-btn" onclick="openDetail(${d.id})">查看</button>
+        <button class="action-btn" onclick="deleteItem(${d.id})" style="color:var(--red);">删除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function deleteItem(id) {
+  if (!confirm('确定删除该地块信息？')) return;
+  const idx = LAND_DATA.findIndex(d => d.id === id);
+  if (idx > -1) LAND_DATA.splice(idx, 1);
+  filteredData = [...LAND_DATA];
+  populateStatGrid();
+  handleSearch();
+  renderAdminList();
+  showToast('删除成功');
+}
+
+function downloadTemplate() {
+  showToast('模板下载功能（正式版可用）');
+}
+
+function handleImport(el) {
+  const file = el.files[0];
+  if (!file) return;
+  showToast(`已选择文件：${file.name}（正式版将自动解析入库）`);
+}
+
+// ===== 工具函数 =====
+function getStatusClass(status) {
+  if (status === '招募中') return 'status-recruit';
+  if (status === '洽谈中') return 'status-negotiate';
+  if (status === '已落地') return 'status-signed';
+  return 'status-other';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== PWA Service Worker 注册 =====
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(console.error);
+}
+
+// ===== 启动 =====
+init();
+</script>
+</body>
+</html>
