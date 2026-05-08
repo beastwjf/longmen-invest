@@ -1,4 +1,4 @@
-const CACHE_NAME = 'longmen-invest-v1';
+const CACHE_NAME = 'longmen-invest-v20260508';
 const urlsToCache = [
   '/',
   '/index.html',
